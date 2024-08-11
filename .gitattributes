@@ -1,0 +1,322 @@
+Skip to content
+ 
+Search…
+All gists
+Back to GitHub
+Sign in
+Sign up
+Instantly share code, notes, and snippets.
+
+@nemotoo
+nemotoo/.gitattributes
+Last active last week
+Code
+Revisions
+3
+Stars
+429
+Forks
+120
+Clone this repository at &lt;script src=&quot;https://gist.github.com/nemotoo/b8a1c3a0f1225bb9231979f389fd4f3f.js&quot;&gt;&lt;/script&gt;
+<script src="https://gist.github.com/nemotoo/b8a1c3a0f1225bb9231979f389fd4f3f.js"></script>
+.gitattributes for Unity3D with git-lfs
+.gitattributes
+## Unity ##
+
+*.cs diff=csharp text
+*.cginc text
+*.shader text
+
+*.mat merge=unityyamlmerge eol=lf
+*.anim merge=unityyamlmerge eol=lf
+*.unity merge=unityyamlmerge eol=lf
+*.prefab merge=unityyamlmerge eol=lf
+*.physicsMaterial2D merge=unityyamlmerge eol=lf
+*.physicMaterial merge=unityyamlmerge eol=lf
+*.asset merge=unityyamlmerge eol=lf
+*.meta merge=unityyamlmerge eol=lf
+*.controller merge=unityyamlmerge eol=lf
+
+
+## git-lfs ##
+
+#Image
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.gif filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.ai filter=lfs diff=lfs merge=lfs -text
+
+#Audio
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.ogg filter=lfs diff=lfs merge=lfs -text
+
+#Video
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+
+#3D Object
+*.FBX filter=lfs diff=lfs merge=lfs -text
+*.fbx filter=lfs diff=lfs merge=lfs -text
+*.blend filter=lfs diff=lfs merge=lfs -text
+*.obj filter=lfs diff=lfs merge=lfs -text
+
+#ETC
+*.a filter=lfs diff=lfs merge=lfs -text
+*.exr filter=lfs diff=lfs merge=lfs -text
+*.tga filter=lfs diff=lfs merge=lfs -text
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.dll filter=lfs diff=lfs merge=lfs -text
+*.unitypackage filter=lfs diff=lfs merge=lfs -text
+*.aif filter=lfs diff=lfs merge=lfs -text
+*.ttf filter=lfs diff=lfs merge=lfs -text
+*.rns filter=lfs diff=lfs merge=lfs -text
+*.reason filter=lfs diff=lfs merge=lfs -text
+*.lxo filter=lfs diff=lfs merge=lfs -text
+
+Load earlier comments...
+@Dreaddisk
+Dreaddisk commented on Sep 24, 2018
+Noob here, is this a better version of the Unity.gitignore or a different file?
+
+@debuggins
+debuggins commented on Sep 28, 2018
+@Dreaddisk This file is for use with Git LFS
+
+@jacobschellenberg
+jacobschellenberg commented on Oct 4, 2018 • 
+I see you're using:
+
+*.asset merge=unityyamlmerge eol=lf
+
+for all .asset files. But what I'm finding is that things like, /ProjectSettings/* is text, like TagsManager.asset and should be able to merge by line. So yeah, we don't want those in LFS.
+
+On the other hand, Unity decided to use .asset for other things too, like meshes, materials, and others. Some of which are upwards of 25mb. Some of which are text (mesh/material), but others that are binary.
+
+Is there a way to specify, if binary use lfs? Or do you really think it's okay for all .asset files to not use LFS?
+
+@40detectives
+40detectives commented on Oct 8, 2018 • 
+I see you're using:
+
+*.asset merge=unityyamlmerge eol=lf
+
+for all .asset files. But what I'm finding is that things like, /ProjectSettings/* is text, like TagsManager.asset and should be able to merge by line. So yeah, we don't want those in LFS.
+
+On the other hand, Unity decided to use .asset for other things too, like meshes, materials, and others. Some of which are upwards of 25mb. Some of which are text (mesh/material), but others that are binary.
+
+Is there a way to specify, if binary use lfs? Or do you really think it's okay for all .asset files to not use LFS?
+
+Check my previous message just a little bit above in the page.
+
+I would probably go with the option 1, just because I do not really trust the ability of git to determine that. So you would like to identify the "*.assets" that are binaries and make some rules just for them. The most commons are terrains, not sure of any others.
+
+@Domvel
+Domvel commented on Oct 16, 2018
+Some *.asset files are binary, others text. I also have a hybrid (text / binary) asset file with a size of 180 MB. How to handle it in .gitattributes?
+*.asset filter=lfs diff=lfs merge=lfs -text?
+
+@DouglasUT2018
+DouglasUT2018 commented on Nov 25, 2018
+I have been having issues with asset files as well. Is there an updated version of this that has the rules for the common binary and text .asset types? It would be good to have one place to go for a Unity Git LFS file instead of reinventing the wheel each time.
+
+@bitinn
+bitinn commented on Dec 9, 2018 • 
+For people looking at limiting binary *.asset file size, I got a solution for you.
+
+https://stackoverflow.com/a/53692461/1677057
+
+@FrankNine
+FrankNine commented on Mar 27, 2019 • 
+Looked into line ending of files with .asset extension in Force Text mode
+
+crlf
+
+.asset files under ProjectSettings
+lf
+
+Tile set config
+Still binary with Force Text
+
+Lighting Data
+Terrain Data
+2 cents: Leave .asset alone
+
+@jwvanderbeck
+jwvanderbeck commented on Mar 30, 2019
+I have been digging into this as well and wanted to point out that Unity's documentation for YAMLMerge indicates it should be used only for two types of files: .unity and .prefab
+
+https://docs.unity3d.com/Manual/SmartMerge.html
+
+@NPatch
+NPatch commented on Jun 7, 2019
+Also what's the point of treating 3D objects/Video/Audio/Image as text? They are all binary. Ofc there are in some cases, ascii versions(FBX probably has one, OBJ is by default but there's a binary version as well, though almost no one uses it).
+
+@nemotoo
+Author
+nemotoo commented on Jun 7, 2019
+"-text" means non text : https://git-scm.com/docs/gitattributes
+
+@NPatch
+NPatch commented on Jun 7, 2019
+@nemotoo My bad..thx!
+
+@dorkbot
+dorkbot commented on Aug 9, 2019
+thanks for this. How would I use this with Unity assetbundles?
+
+@nemotoo
+Author
+nemotoo commented on Aug 10, 2019
+@dorkbot Unfortunately, I have no idea that how to manage assetbundles with git-lfs.
+By the way, Unity team released new asset manage system.
+I recommend this if you want to manage assets with git-lfs.
+https://blogs.unity3d.com/2019/07/15/addressable-asset-system/
+
+@zloop1982
+zloop1982 commented on Oct 22, 2020
+@nemotoo I see you use merge=unityyamlmerge to let git use unityyamlmerge for one type of files, How to let git know the unityyamlmerge tool?
+how to config unityyamlmerge in .gitconfig file?
+
+I like your way to set unityyamlmerge for specified files.
+but this setting in .gitconfig file:
+[merge]
+tool = unityyamlmerge
+I'm afraid that may let git always use unityyamlmerge for everything.
+
+@Chefty
+Chefty commented on Jan 20, 2021 • 
+I agree with @evitolins what about tracking .unity and .asset with LFS?
+From what I read here it will only be handled by unity yaml "smart merge"?
+
+I have very large scenes over 100mb and Github is complaining about it. Without talking about lighting datas...
+I added these two lines at the end of my .gitattributes:
+
+# Scenes
+*.unity lfs
+[Aa]ssets/[Ss]cenes/*.assets lfs
+But now will the yaml "smart merge" still work?
+
+@upscalebaby
+upscalebaby commented on Oct 6, 2021
+I like this one, I'd add HDR image support as well:
+
+*.hdr filter=lfs diff=lfs merge=lfs -text
+
+@benkoadam
+benkoadam commented on Dec 30, 2021
+Since you are using yamalMerge for *.unity, lets say that you have just created a scene with more than 200 MB in size. How will you push it ? Did you increase your git push limit too ?
+
+@Hoodad
+Hoodad commented on Jan 27, 2022
+To prevent LightingData.asset to become corrupted I highly recommend to treat it like a binary file. When working we have had multiple occureneces where the LightingData.asset ended up corrupt when pushed through LFS due to the unityyamlmerge
+
+LightingData.asset filter=lfs diff=lfs merge=lfs -text
+
+@fkkcloud
+fkkcloud commented on Apr 15, 2022 • 
+with #*.wav filter=lfs diff=lfs merge=lfs -text, when I merge other branches that has changed .wav files, I am getting .wav files "dirty" and listed in the changelist (it is not the conflict btw) every time. if I remove "filter=lfs", it works fine. any ideas?
+
+@omundy
+omundy commented on Apr 21, 2022
+Thanks for this. Consider adding .psb files (along with PSDs)
+
+@SuleimanAbdullah
+SuleimanAbdullah commented on Jun 23, 2022
+Thanks, @Hoodad I have spent weeks to solve this but light data make push large file failed I follow your recommendation and the push worked thanks again you save my day
+
+@Breanzy
+Breanzy commented on Jun 23, 2022
+Thanks for this ^^
+
+@Begounet
+Begounet commented on Nov 3, 2022
+Months later, got the same issue, because based my .gitattributes on this. Thank you @Hoodad! Should really consider adding this to the file.
+
+@jwvanderbeck
+jwvanderbeck commented on Nov 3, 2022
+As I had pointed out way above, the yaml merge tool is NOT supposed to be used on .asset files. Only .unity and .prefab
+
+@SuleimanAbdullah
+SuleimanAbdullah commented on Nov 4, 2022 via email 
+I have already solve that problem way back ,thank you for helping me
+…
+@kenorb
+kenorb commented on Mar 9, 2023
+For .gitignore, look for GitHub's official version at https://github.com/github/gitignore/blob/main/Unity.gitignore
+
+@NPatch
+NPatch commented on Sep 29, 2023 • 
+Seems to me like the right way is:
+*.asset ......
+LightingData.asset .... -text
+*TerrainData.asset .... -text
+
+As @40detectives implied before but yours truly never noticed, since gitattributes uses the latter rule when multiple patterns match a file, it should treat everything as text, unless its name is LightingData.asset or TerrainData.asset etc. I don't define folders because each type of binary .asset has different implications.
+
+TerrainData.asset, unless I'm mistaken, can be renamed safely from within the editor, without corrupting its data so you might want to use a naming convention(hence the * if you do sth like SceneName_TerrainData.asset).
+
+LightingData.asset though, while it can be renamed from within the editor, at least for me, it doesn't work afterwards. Lighting is wrong, kinda like overexposed. Also if you rebake lighting, the result is again stored in LightingData.asset. So regardless of what you do, it will always be like SceneName/LightingData.asset.
+
+There's a third type of binary .asset which is NavMesh. As far as I'm aware these are the 3 types. But I've never used it, so not sure of its quirks. It most likely has some.
+
+So LightingData is always under a folder with the same scene name as the scene it's baked for. TerrainData is likely a free agent, you can put them wherever. NavMesh I assume is also a free agent.
+
+Update:
+TerrainData is the name of the type, but the default naming is New Terrain.asset. Still it's renamable so:
+*-[Tt]errain.asset or *-[Tt]errainData.asset should be fine.
+For LightingData though it has to remain as is and let the folder hierarchy differentiate them.
+
+Update2: I found out about a nifty git command that can help you figure some things out if you're in a weird situation with attributes:
+git check-attr
+
+It tells you if a pattern of specific filepath has attributes and which they are. For example, using the above recommended rules:
+git check-attr -a .asset
+returns:
+
+.asset: merge: unityyamlmerge
+.asset: eol: lf
+while based on the latter rule I set before:
+git check-attr -a LightingData.asset
+returns:
+
+LightingData.asset: diff: lfs
+LightingData.asset: merge: lfs
+LightingData.asset: text: unset
+LightingData.asset: eol: lf
+LightingData.asset: filter: lfs
+The LightingData clearly speficies that "text" is unset, so it's not text type asset, but binary.
+
+The .asset though doesn't specify "text". To further verify you can do:
+git check-attr text .asset
+and you'll get:
+
+.asset: text: unspecified
+Documentation for gitattributes' text states that in the absence of text, it defaults to what core.autocrlf defines, which by default is true, so it treats it as text.
+
+There is a case to be had for "text=auto" in letting git decide if the asset is text or binary, but I can't be sure about it, not having used it.
+
+@StromKuo
+StromKuo commented on May 17
+I found a good reference #https://github.com/FrankNine/RepoConfig/blob/1a4b0ca56e21595b2f7a155709bafcad7083db7e/.gitattributes
+
+@FrankNine
+FrankNine commented on May 18
+I wrote a post about that .gitattributes and other Unity with git stuff here:
+https://franknine.github.io/posts/unity-git-en/#gitattributes
+
+ to join this conversation on GitHub. Already have an account? Sign in to comment
+Footer
+© 2024 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact
+Manage cookies
+Do not share my personal information
