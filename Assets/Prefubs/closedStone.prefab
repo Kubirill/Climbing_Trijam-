@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1470000605055937550}
   - component: {fileID: 1535081639998127867}
+  - component: {fileID: 5976407311838072336}
   m_Layer: 0
-  m_Name: stone03 (19)
+  m_Name: closedStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,3 +85,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5976407311838072336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415630091384582734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 097c8ebf56315d54490fe944f4f2c9d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
