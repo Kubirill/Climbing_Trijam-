@@ -12,7 +12,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private float _cellSize;
     [SerializeField] private Vector2 _offset;
     [SerializeField] private Transform _parent;
-    [SerializeField] private SetFigure _hand;
+    [SerializeField] private FigureHolder _hand;
     [SerializeField] private Timer _timer;
     private List<List<Cell>> _tileMap = new List<List<Cell>>();
     private Map _map;

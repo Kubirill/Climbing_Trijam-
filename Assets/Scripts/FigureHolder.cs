@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace Assets.Scripts
 {
-    public class SetFigure : MonoBehaviour
+    public class FigureHolder : MonoBehaviour
     {
 
         [SerializeField] private Vector2Int _figureSize = new Vector2Int(2,2);
