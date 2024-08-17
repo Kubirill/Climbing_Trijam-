@@ -26,7 +26,6 @@ namespace Assets.Scripts
             {
                 button.returnFigure(holder);
             }
-            print(holder != _holder);
             if (holder != _holder)
             {
                 
