@@ -38,4 +38,12 @@ public class ButtonForFigure : MonoBehaviour
             _holder.transform.localScale = scaleFigure;
         }
     }
+    public void returnFigure()
+    {
+        
+        _holder.transform.parent = transform.parent;
+        _holder.transform.localPosition = Vector3.zero;
+        _holder.transform.localScale = scaleFigure;
+        
+    }
 }

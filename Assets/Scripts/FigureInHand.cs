@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.WSA;
 
 namespace Assets.Scripts
 {
@@ -58,7 +59,11 @@ namespace Assets.Scripts
         public void ChangeFigure()
         {
             _holder.ChangeFigure();
-
+            _holder = null;
+            foreach (var button in _buttons)
+            {
+                button.returnFigure();
+            }
         }
     }
 }
