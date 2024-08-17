@@ -5,7 +5,8 @@ using UnityEngine;
 public class Figure6 : Figures
 {
     // Start is called before the first frame update
-    public Figure6() : base()
+    
+    public override void SetFigure()
     {
         createFigure.Add(figure1);
         createFigure.Add(figure2);
@@ -15,11 +16,6 @@ public class Figure6 : Figures
         createFigure.Add(figure6);
         createFigure.Add(figure7);
         createFigure[UnityEngine.Random.Range(0, createFigure.Count)].Invoke();
-    }
-    public override void SetFigure()
-    {
-        _figure.Add(new List<int> { 1, 1, 1 });
-        _figure.Add(new List<int> { 1, 0, 0 });
     }
 
     public void figure1()

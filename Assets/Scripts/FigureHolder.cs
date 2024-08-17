@@ -23,14 +23,9 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            for (int x = 0; x < _figureSize.x; x++)
-            {
-                _figure.Add(new List<int>());
-                for (int y = 0; y < _figureSize.y; y++)
-                {
-                    _figure[x].Add(1);
-                }
-            }
+            Figures figure = chooseClass(Random.Range(3,7));
+            _figure=figure.GetFigure();
+            _figureSize= figure.GetFigureSize();
             CreateFigure();
         }
         private void CreateFigure()
@@ -42,13 +37,15 @@ namespace Assets.Scripts
                 {
                     if (_figure[x][y] != 0)
                     {
-
                         Vector2 position;
                         position = (new Vector2(x, y) + _offset) * _cellSize;
                         Instantiate(_blockType, position, Quaternion.identity, transform);
+                    
                     }
                 }
             }
+            Debug.Log(_figureSize);
+            PrintList<int>(_figure);
         }
         private void Update()
         {
@@ -61,5 +58,39 @@ namespace Assets.Scripts
             float substractValue = 1f;
             return Mathf.RoundToInt((x - substractValue) / 2);
         }
+
+        public void PrintList<T>(List<List<T>> list)
+        {
+            foreach (var line in list)
+            {
+                foreach (var i in line)
+                {
+                    Debug.Log (i);
+                }
+                Debug.Log("_____");
+            }
+        }
+        private Figures chooseClass(int blocksCount)
+        {
+            Figures figure;
+            switch (blocksCount)
+            {
+                case 4:
+                    figure = new Figure4();
+                    break;
+
+                case 5:
+                    figure = new Figure5();
+                    break;
+                case 6:
+                    figure = new Figure6();
+                    break;
+                default:
+                    figure = new Figure3();
+                    break;
+            }
+            return figure;
+        }
+
     }
 }

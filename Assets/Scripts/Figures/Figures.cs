@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Figures 
 {
-    private Vector2Int _figureSize;
+    protected Vector2Int _figureSize;
     protected List<List<int>> _figure = new List<List<int>>();
 
     protected List<Action> createFigure = new List<Action>();
@@ -24,5 +24,10 @@ public class Figures
     {
         
         return _figure;
+    }
+    public Vector2Int GetFigureSize()
+    {
+        
+        return _figureSize;
     }
 }
