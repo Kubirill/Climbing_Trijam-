@@ -17,19 +17,19 @@ public class Cell : MonoBehaviour
         _stepToDelete = step;
     }
 
-    public event Action<Vector2Int> mouseEnter;
+    public event Action<Vector2Int> MouseEnter;
 
     
-    public event Action<Vector2Int> mouseDown;
-    public event Action<Vector2Int> refresh;
+    public event Action<Vector2Int> MouseDown;
+    public event Action<Vector2Int> Refresh;
 
     private void OnMouseEnter()
     {
-        mouseEnter?.Invoke(_position);
+        MouseEnter?.Invoke(_position);
     }
     private void OnMouseDown()
     {
-        mouseDown?.Invoke(_position);
+        MouseDown?.Invoke(_position);
     }
 
     public void DeleteBlock(int step)
@@ -37,7 +37,7 @@ public class Cell : MonoBehaviour
         if (_stepToDelete == step) 
         {
 
-            refresh?.Invoke(_position);
+            Refresh?.Invoke(_position);
         }
 
     }

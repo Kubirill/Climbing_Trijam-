@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.XR;
 
 public class MapController : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private float _cellSize;
     [SerializeField] private Vector2 _offset;
     [SerializeField] private Transform _parent;
-    [SerializeField] private FigureHolder _hand;
+    [SerializeField] private FigureInHand _hand;
     [SerializeField] private Timer _timer;
     private List<List<Cell>> _tileMap = new List<List<Cell>>();
     private Map _map;
@@ -21,6 +22,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private Cell _closedBlock;
     [SerializeField] private Sprite _block;
 
+    [ContextMenu("GenerateMap")]
     public void Initialize()
     {
         _map= new Map(_gridSize);
@@ -65,19 +67,24 @@ public class MapController : MonoBehaviour
         refCell = Instantiate(block, position, Quaternion.identity, _parent);
         refCell.SetPosition(new Vector2Int(x, y));
         _tileMap[x].Add(refCell);
-        refCell.mouseDown += ClickOnBlock;
-        refCell.refresh += RefreshBlock;
+        refCell.MouseDown += ClickOnBlock;
+        refCell.Refresh += RefreshBlock;
     }
 
     private void ClickOnBlock(Vector2Int pos)
     {
-        var emptySpaces = _map.CheckSpace(_hand.Figure, pos, _hand.Offset);
+        var figure = _hand.GetFigure();
+        if (figure == null) 
+        {
+            return;
+        }
+        var emptySpaces = _map.CheckSpace(figure.Figure, pos, figure.Offset);
         if (emptySpaces!=null)
         {
             SetBlock(emptySpaces);
             _map.SetBlock(emptySpaces,1); //”казать тип блока
             List<int> lines, columns;
-            _map.CheckLines(_hand.Figure, pos, _hand.Offset,out lines,out columns);
+            _map.CheckLines(figure.Figure, pos, figure.Offset,out lines,out columns);
             LaunchDestroy(lines, columns, pos);
         }
     }
