@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
-    [SerializeField] private Map _map;
+    [SerializeField] private MapController _map;
     private void Awake()
     {
         _map.Initialize();
