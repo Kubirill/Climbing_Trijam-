@@ -28,7 +28,7 @@ namespace Assets.Scripts
                 _figure.Add(new List<int>());
                 for (int y = 0; y < _figureSize.y; y++)
                 {
-                    _figure[x].Add(Random.Range(0,2));
+                    _figure[x].Add(1);
                 }
             }
             CreateFigure();
