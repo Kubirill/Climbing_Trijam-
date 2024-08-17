@@ -86,6 +86,7 @@ public class MapController : MonoBehaviour
             List<int> lines, columns;
             _map.CheckLines(figure.Figure, pos, figure.Offset,out lines,out columns);
             LaunchDestroy(lines, columns, pos);
+            _hand.ChangeFigure();
         }
     }
 

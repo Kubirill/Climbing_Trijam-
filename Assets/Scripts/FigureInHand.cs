@@ -21,7 +21,10 @@ namespace Assets.Scripts
 
         private void ButtonClicked(FigureHolder holder)
         {
-            _holder?.ReturnFigure();
+            foreach (var button in _buttons)
+            {
+                button.returnFigure(holder);
+            }
             print(holder != _holder);
             if (holder != _holder)
             {
@@ -51,6 +54,11 @@ namespace Assets.Scripts
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = mousePos;
         }
-       
+        
+        public void ChangeFigure()
+        {
+            _holder.ChangeFigure();
+
+        }
     }
 }

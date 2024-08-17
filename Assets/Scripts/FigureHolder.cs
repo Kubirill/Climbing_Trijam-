@@ -6,7 +6,6 @@ using UnityEngine.WSA;
 public class FigureHolder : MonoBehaviour
 {
     [SerializeField] private FigureInfo _figure;
-    [SerializeField] private ButtonForFigure _button;
 
     private Vector3 _scaleFigure;
     public FigureInfo Figure { get { return _figure; } }
@@ -17,13 +16,13 @@ public class FigureHolder : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        _figure = new FigureInfo(_blockType);
         _scaleFigure = transform.localScale;
         CreateFigure();
     }
 
     private void CreateFigure()
     {
+        _figure = new FigureInfo(_blockType);
         for (int x = 0; x < _figure.Size.x; x++)
         {
             for (int y = 0; y < _figure.Size.y; y++)
@@ -41,12 +40,15 @@ public class FigureHolder : MonoBehaviour
         }
         
     }
-
-    public void ReturnFigure()
+    public void ChangeFigure()
     {
-        transform.parent = _button.transform.parent;
-        transform.localPosition = Vector3.zero;
-        transform.localScale = _scaleFigure;
+        while (transform.childCount > 0)
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
+        
+        CreateFigure();
     }
-   
+
+
 }
