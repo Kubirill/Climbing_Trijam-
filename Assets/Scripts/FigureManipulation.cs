@@ -22,6 +22,14 @@ public class FigureManipulation : MonoBehaviour
         {
             RotateFigure(_figure.GetFigure().Figure, false);
         }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            FlipHVertical(_figure.GetFigure().Figure);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            FlipHorizontal(_figure.GetFigure().Figure);
+        }
     }
     public List<List<int>> RotateFigure(List<List<int>> figure, bool inRight)
     {
@@ -39,7 +47,7 @@ public class FigureManipulation : MonoBehaviour
         }
         else
         {
-            for (int y = 0; y < figure[0].Count - 1; y++)
+            for (int y = 0; y < figure[0].Count; y++)
             {
                 newFigure.Add(new List<int>());
                 for (int x = figure.Count-1; x >=0 ; x--)
@@ -48,11 +56,47 @@ public class FigureManipulation : MonoBehaviour
                 }
             }
         }
+        /*
         PrintList<int>(figure);
         Debug.Log("_________________");
-        PrintList<int>(newFigure);
+        PrintList<int>(newFigure);*/
         return newFigure;
     }
+
+    public List<List<int>> FlipHorizontal(List<List<int>> figure)
+    {
+        List<List<int>> newFigure = new List<List<int>>();
+        for (int x = figure.Count - 1; x >= 0; x--)
+        {
+            newFigure.Add(new List<int>());
+
+            for (int y = 0; y < figure[0].Count ; y++)
+            {
+                newFigure[figure.Count - 1 - x].Add(figure[x][y]);
+
+            }
+        }
+        
+        
+        return newFigure;
+    }
+    public List<List<int>> FlipHVertical(List<List<int>> figure)
+    {
+        List<List<int>> newFigure = new List<List<int>>();
+        for (int x = 0; x < figure.Count; x++)
+        {
+            newFigure.Add(new List<int>());
+
+            for (int y = figure[0].Count - 1; y >= 0; y--)
+            {
+                newFigure[x].Add(figure[x][y]);
+
+            }
+        }
+        
+        return newFigure;
+    }
+
     public void PrintList<T>(List<List<T>> list)
     {
         foreach (var line in list)
