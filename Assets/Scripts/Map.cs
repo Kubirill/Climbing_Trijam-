@@ -42,9 +42,14 @@ public class Map
             {
                 if (_figure[x][y] != 0)
                 {
-                    
-                    bool notEmptyCell = (x >= _map.Count) || (y >= _map[0].Count)
-                            || (_map[x + offsetChecker.x][y + offsetChecker.y] != 0);
+
+                    bool notEmptyCell = (x + offsetChecker.x >= _map.Count) || 
+                        (y + offsetChecker.y >= _map[0].Count) ||
+                        (x + offsetChecker.x <0) ||
+                        (y + offsetChecker.y <0);
+                    if (!notEmptyCell) notEmptyCell= 
+                            (_map[x + offsetChecker.x][y + offsetChecker.y] != 0);
+
                     if (notEmptyCell)
                     {
                         return null;
