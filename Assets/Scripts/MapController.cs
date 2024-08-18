@@ -1,5 +1,6 @@
 
 using Assets.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -232,6 +233,8 @@ public class MapController : MonoBehaviour
         }
     }
 
+
+
     private Vector2Int MakeEmpty(Vector2Int pos)
     {
         _map.SetBlock(pos, 0);
@@ -240,23 +243,32 @@ public class MapController : MonoBehaviour
         return pos;
     }
 
+
+    public event Action<Vector2Int, Vector2Int> NewLine;//1 - Direction for new line from center
+                                                        //2 - Size map
+
+
     private void CheckEdge(Vector2Int pos)
     {
         if (pos.x == _gridSize.x - 1)
         {
             AddColumn(true);
+            NewLine?.Invoke(new Vector2Int(1,0),_gridSize);
         }
         if (pos.x == 0)
         {
             AddColumn(false);
+            NewLine?.Invoke(new Vector2Int(-1, 0), _gridSize);
         }
         if (pos.y == _gridSize.y - 1)
         {
             AddRow(true);
+            NewLine?.Invoke(new Vector2Int(0, 1), _gridSize);
         }
         if (pos.y == 0)
         {
             AddRow(false);
+            NewLine?.Invoke(new Vector2Int(0, -1), _gridSize);
 
         }
     }

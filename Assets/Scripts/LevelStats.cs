@@ -7,6 +7,7 @@ public static class LevelStats
 {
     public static Vector2Int offsetForCells =Vector2Int.zero;
     public static int blockInFigure = 3;
+    public static int sizeBlock = 2;
 
     public static void NewGame()
     {

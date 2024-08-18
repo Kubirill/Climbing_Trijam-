@@ -7,9 +7,11 @@ public class Bootstrap : MonoBehaviour
 {
     [SerializeField] private MapController _map;
     [SerializeField] private FigureInHand _figureInHand;
+    [SerializeField] private CameraFollow _camera;
     private void Awake()
     {
         _map.Initialize();
         _figureInHand.Initialize();
+        _camera.Initialize(_map);
     }
 }
