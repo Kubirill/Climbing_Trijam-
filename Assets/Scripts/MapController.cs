@@ -78,13 +78,13 @@ public class MapController : MonoBehaviour
         {
             return;
         }
-        var emptySpaces = _map.CheckSpace(figure.Figure, pos, figure.Offset);
+        var emptySpaces = _map.CheckSpace(figure.Figure, pos, figure.Pivot);
         if (emptySpaces!=null)
         {
             SetBlock(emptySpaces);
             _map.SetBlock(emptySpaces,1); //”казать тип блока
             List<int> lines, columns;
-            _map.CheckLines(figure.Figure, pos, figure.Offset,out lines,out columns);
+            _map.CheckLines(figure.Figure, pos, figure.Pivot,out lines,out columns);
             LaunchDestroy(lines, columns, pos);
             _hand.ChangeFigure();
         }

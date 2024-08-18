@@ -31,16 +31,16 @@ public class Map
             }
         }
     }
-    public List<Vector2Int> CheckSpace(List<List<int>> _figure, Vector2Int pivot, Vector2Int offset)
+    public List<Vector2Int> CheckSpace(List<List<int>> _figure, Vector2Int clickedCell, Vector2Int pivot)
     {
         List<Vector2Int> freeSpaces = new List<Vector2Int>();
-        Vector2Int offsetChecker = pivot + offset;
+        Vector2Int offsetChecker = clickedCell - pivot;
 
         for (int x = 0; x < _figure.Count; x++)
         {
             for (int y = 0; y < _figure[0].Count; y++)
             {
-                if (_figure[x][y] != 0)
+                if (_figure[x][y] > 0)
                 {
 
                     bool notEmptyCell = (x + offsetChecker.x >= _map.Count) || 
@@ -63,10 +63,10 @@ public class Map
         }
         return freeSpaces;
     }
-    public void CheckLines(List<List<int>> _figure, Vector2Int pivot, Vector2Int offset,
+    public void CheckLines(List<List<int>> _figure, Vector2Int clickedCell, Vector2Int pivot,
         out List<int> lines, out List<int> columns)
     {
-        Vector2Int offsetChecker = pivot + offset;
+        Vector2Int offsetChecker =   clickedCell - pivot;
         columns = new List<int>();
         lines = new List<int>();
 

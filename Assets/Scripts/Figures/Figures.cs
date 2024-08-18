@@ -18,7 +18,8 @@ public class Figures
     public virtual void SetFigure()
     {
 
-        _figure.Add(new List<int> { 1, 1, 1 });
+        _figure.Add(new List<int> { 1, 1, 1 }); // (2) - pivot in block space
+                                                // (-2) pivot in empty space
     }
     public List<List<int>> GetFigure()
     {

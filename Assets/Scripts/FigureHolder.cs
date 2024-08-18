@@ -26,10 +26,10 @@ public class FigureHolder : MonoBehaviour
         {
             for (int y = 0; y < _figure.Size.y; y++)
             {
-                if (_figure.Figure[x][y] != 0)
+                if (_figure.Figure[x][y] > 0)
                 {
                     Vector3 position;
-                    position = (new Vector2(x, y) + _figure.Offset) 
+                    position = (new Vector2(x, y) - _figure.Pivot) 
                         * _cellSize*transform.localScale;
                     position = position + transform.position;
                     Instantiate(_blockType, position,Quaternion.identity, transform);
