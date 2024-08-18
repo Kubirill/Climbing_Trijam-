@@ -22,7 +22,19 @@ public class CameraFollow : MonoBehaviour
             sizeMap += Vector2Int.one* LevelStats.sizeBlock / 2;
         }
         Vector3 dir = new Vector3(direction.x, direction.y, 0);
-        transform.position = transform.position+ dir * LevelStats.sizeBlock/2;
+        StartCoroutine(CameraMove(transform.position + dir * LevelStats.sizeBlock / 2));
+        //transform.position = transform.position+ dir * LevelStats.sizeBlock/2;
 
+    }
+    private IEnumerator CameraMove(Vector3 endpoint)
+    {
+        Vector3 startpoint=transform.position;
+        float progress=0;
+        while (progress < 1)
+        {
+            progress += Time.deltaTime*2;
+            transform.position = Vector3.Lerp(startpoint, endpoint, progress);
+            yield return null;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -15,11 +16,13 @@ public static class LevelStats
         offsetForCells =Vector2Int.zero;
         blockInFigure = 3;
     }
+    public static event Action Merged;
     public static void Merge()
     {
         offsetForCells = Vector2Int.zero;
         blockInFigure = 3;
         sizeBlock *= 2;
+        Merged?.Invoke();
     }
     public static void LevelUp()
     {

@@ -16,6 +16,7 @@ public class FigureHolder : MonoBehaviour
     // Start is called before the first frame update
     public void Initialize(float trueScale)
     {
+        LevelStats.Merged += ChangeFigure;
         _scaleFigure = transform.localScale;
         _trueScale = trueScale;
         CreateFigure();
@@ -55,5 +56,8 @@ public class FigureHolder : MonoBehaviour
         CreateFigure();
     }
 
-
+    private void OnDestroy()
+    {
+        LevelStats.Merged -= ChangeFigure;
+    }
 }
