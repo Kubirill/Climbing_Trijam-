@@ -224,7 +224,9 @@ public class MapController : MonoBehaviour
 
     public void RefreshBlock(Vector2Int pos)
     {
+        int typeBlock=_map.GetBlock(pos.x, pos.y);
         pos = MakeEmpty(pos);
+        if (typeBlock==-1)CheckEdge(pos);
         //DigClosesdBlock( pos);
     }
 
@@ -256,7 +258,7 @@ public class MapController : MonoBehaviour
             _tileMap[pos.x][pos.y].SetStepToDelete(distance);
             _timer.destroyBlocks += _tileMap[pos.x][pos.y].DeleteBlock;
             //pos = MakeEmpty(pos);
-            CheckEdge(pos);
+            
         }
     }
 
@@ -280,17 +282,17 @@ public class MapController : MonoBehaviour
             AddColumn(true);
             NewLine?.Invoke(new Vector2Int(1,0),_gridSize);
         }
-        if (pos.x == 0)
+        if (pos.x == 1)
         {
             AddColumn(false);
             NewLine?.Invoke(new Vector2Int(-1, 0), _gridSize);
         }
-        if (pos.y == _gridSize.y - 1)
+        if (pos.y == _gridSize.y-1)
         {
             AddRow(true);
             NewLine?.Invoke(new Vector2Int(0, 1), _gridSize);
         }
-        if (pos.y == 0)
+        if (pos.y == 1)
         {
             AddRow(false);
             NewLine?.Invoke(new Vector2Int(0, -1), _gridSize);
