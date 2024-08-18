@@ -108,22 +108,22 @@ public class MapController : MonoBehaviour
         HoldOnBlock(_lastBlovck);
     }
 
-    bool isWarking;
+    
 
     private void ClickOnBlockAsync(Vector2Int pos)
     {
-        if (isWarking) return;
+        if (!LevelStats.gameActive) return;
 
-        isWarking = true;
+        LevelStats.gameActive = false;
         var figure = _hand.GetFigure();
         if (figure == null)
         {
-            isWarking = false;
+            LevelStats.gameActive = true;
             return;
         }
         if (!_spaceExists)
         {
-            isWarking = false;
+            LevelStats.gameActive = true;
             return;
         }
 
@@ -135,6 +135,7 @@ public class MapController : MonoBehaviour
         //var emptySpaces = _map.CheckSpace(figure.Figure, pos, figure.Pivot);
         if (_pickedSpases != null)
         {
+            PickBlock(_pickedSpases, false);
             SetBlock(_pickedSpases);
             _map.SetBlock(_pickedSpases, 1); //”казать тип блока
             List<int> lines, columns;
@@ -147,7 +148,7 @@ public class MapController : MonoBehaviour
             }
             _hand.ChangeFigure();
         }
-        isWarking = false;
+        LevelStats.gameActive = true;
         yield return new WaitForSeconds(0);
     }
 

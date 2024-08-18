@@ -39,7 +39,7 @@ public class ButtonForFigure : MonoBehaviour
     public event Action<FigureHolder> MouseDown;
     private void OnMouseDown()
     {
-        
+        if (!LevelStats.gameActive) return;
         MouseDown?.Invoke(_holder);
         
     }
