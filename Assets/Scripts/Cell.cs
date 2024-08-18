@@ -17,7 +17,7 @@ public class Cell : MonoBehaviour
     public void SetStepToDelete(int step)
     {
         transform.DOShakePosition(1,0.2f);
-        _stepToDelete = step;
+        if (step> _stepToDelete) _stepToDelete = step;
     }
 
     public event Action<Vector2Int> MouseEnter;

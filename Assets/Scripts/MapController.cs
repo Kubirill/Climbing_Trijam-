@@ -5,7 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class MapController : MonoBehaviour
 {
@@ -139,8 +142,8 @@ public class MapController : MonoBehaviour
             SetBlock(_pickedSpases);
             _map.SetBlock(_pickedSpases, 1); //”казать тип блока
             List<int> lines, columns;
-            _map.CheckLines(figure.Figure, pos, figure.Pivot, out lines, out columns);
-
+             _map.CheckLines(figure.Figure, pos, figure.Pivot, out lines, out columns);
+            //_map.CheckLines(_pickedSpases, out lines, out columns);
             _hand.ClearFigure();
             if (lines.Count + columns.Count > 0)
             {
@@ -157,39 +160,47 @@ public class MapController : MonoBehaviour
         int maxDistance = 2;
         for (int i = 0; i < lines.Count; i++)
         {
+            Debug.Log(lines[i]+"l");
             for (int x = 0; x < _gridSize.x; x++)
             {
+                int distance = Mathf.Abs(x - pivot.x) + Mathf.Abs(lines[i] - pivot.y) + 2;
+                
                 if (_map.GetBlock(x,lines[i]) != -1)
                 {
-                    int distance = Mathf.Abs(x - pivot.x) + Mathf.Abs(lines[i] - pivot.y) + 2;
+                    
                     if (distance > maxDistance)
                     {
                         maxDistance = distance;
                     }
                     _tileMap[x][lines[i]].SetStepToDelete(distance);
                     _timer.destroyBlocks += _tileMap[x][lines[i]].DeleteBlock;
+                    //DigClosesdBlock(new Vector2Int(x,lines[i]), distance+1);
                 }
                 
             }
         }
         for (int i = 0; i < columns.Count; i++)
         {
+            Debug.Log(columns[i] + "c");
             for (int y = 0; y < _gridSize.y; y++)
             {
+                int distance = Mathf.Abs(columns[i] - pivot.x) + Mathf.Abs(y - pivot.y) + 2;
+               
                 if (_map.GetBlock(columns[i],y) != -1)
                 {
-                    int distance = Mathf.Abs(columns[i] - pivot.x) + Mathf.Abs(y - pivot.y) + 2;
+                    
                     if (distance > maxDistance)
                     {
                         maxDistance = distance;
                     }
                     _tileMap[columns[i]][y].SetStepToDelete(distance);
                     _timer.destroyBlocks += _tileMap[columns[i]][y].DeleteBlock;
+                    //DigClosesdBlock(new Vector2Int(columns[i], y), distance+1);
                 }
                
             }
         }
-        yield return _timer.SetUpTimer(maxDistance);
+        yield return _timer.SetUpTimer(maxDistance+1);
     }
     public void SetBlock(List<Vector2Int> spaces)
     {
@@ -214,11 +225,11 @@ public class MapController : MonoBehaviour
     public void RefreshBlock(Vector2Int pos)
     {
         pos = MakeEmpty(pos);
-        DigClosesdBlock( pos);
+        //DigClosesdBlock( pos);
     }
 
-    private void DigClosesdBlock(Vector2Int pos)
-    {
+    private void DigClosesdBlock(Vector2Int pos,int distance)
+    {/*
         bool edge = (pos.x>= _tileMap.Count-1) ||//Change to _gridSize
                         (pos.y >= _tileMap[0].Count-1) ||
                         (pos.x <= 0) ||
@@ -226,31 +237,36 @@ public class MapController : MonoBehaviour
         if (edge)
         {
             return;
-        }
+        }*/
         pos += new Vector2Int(1, 0);
         if (_map.GetBlock(pos.x, pos.y) == -1)
         {
-            pos = MakeEmpty(pos);
+            _tileMap[pos.x][pos.y].SetStepToDelete(distance);
+            _timer.destroyBlocks += _tileMap[pos.x][pos.y].DeleteBlock;
+            //pos = MakeEmpty(pos);
             CheckEdge(pos);
         }
         pos += new Vector2Int(-1, 1);
         if (_map.GetBlock( pos.x, pos.y) == -1)
         {
-            pos = MakeEmpty(pos);
+            _tileMap[pos.x][pos.y].SetStepToDelete(distance);
+            _timer.destroyBlocks += _tileMap[pos.x][pos.y].DeleteBlock;
             CheckEdge(pos);
 
         }
         pos += new Vector2Int(-1, -1);
         if (_map.GetBlock( pos.x, pos.y) == -1)
         {
-            pos = MakeEmpty(pos);
+            _tileMap[pos.x][pos.y].SetStepToDelete(distance);
+            _timer.destroyBlocks += _tileMap[pos.x][pos.y].DeleteBlock;
             CheckEdge(pos);
 
         }
         pos += new Vector2Int(1, -1);
         if (_map.GetBlock( pos.x, pos.y) == -1)
         {
-            pos = MakeEmpty(pos);
+            _tileMap[pos.x][pos.y].SetStepToDelete(distance);
+            _timer.destroyBlocks += _tileMap[pos.x][pos.y].DeleteBlock;
             CheckEdge(pos);
 
         }

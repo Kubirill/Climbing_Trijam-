@@ -67,7 +67,7 @@ public class Map
         }
         return freeSpaces;
     }
-
+    
     public bool CheckSpace(List<List<int>> _figure, Vector2Int clickedCell, Vector2Int pivot,
         out List<Vector2Int> pointedSpaces, out List<Vector2Int> emptySpaces)
     {
@@ -113,7 +113,65 @@ public class Map
         }
         return spaceExists;
     }
+    /*
+    public void CheckLines(List<Vector2Int> places, out List<int> lines, out List<int> columns)
+    {
+        columns = new List<int>();
+        lines = new List<int>();
+        List<int> testColumns = new List<int>();
+        List<int> testLines = new List<int>();
+        foreach (var place in places)
+        {
+            if (!columns.Contains(place.x))columns.Add(place.x);
+            if (!lines.Contains(place.y)) lines.Add(place.y);
+            if (!testColumns.Contains(place.x)) testColumns.Add(place.x);
+            if (!testLines.Contains(place.y)) testLines.Add(place.y);
+            
+        }
+        
+        foreach (var column in testColumns)
+        {
+            bool notEmpty = false;
+            for (int y = 0; y < _map[column].Count; y++)
+            {
+                if (_map[column][y] == 0)
+                {
+                    columns.Remove(column);
+                    break;
+                }
+                if ((!notEmpty) && (_map[column][y] > 0))
+                {
+                    notEmpty = true;
+                }
+            }
+            if  (!notEmpty)
+            {
+                columns.Remove(column);
+            }
 
+        }
+        foreach (var line in testLines)
+        {
+            bool notEmpty = false;
+            for (int x = 0; x < _map.Count; x++)
+            {
+                if (_map[x][line] == 0)
+                {
+                    columns.Remove(line);
+                    break;
+                }
+                if ((!notEmpty) && (_map[x][line] > 0))
+                {
+                    notEmpty = true;
+                }
+            }
+            if (!notEmpty)
+            {
+                lines.Remove(line);
+            }
+        }
+
+    }*/
     public void CheckLines(List<List<int>> _figure, Vector2Int clickedCell, Vector2Int pivot,
         out List<int> lines, out List<int> columns)
     {
@@ -139,10 +197,7 @@ public class Map
                 
 
             }
-            if ((!notEmpty) && (lineFull))
-            {
-                columns.Add(x + offsetChecker.x);
-            }
+            
         }
 
         for (int y = 0; y < _figure[0].Count; y++)
