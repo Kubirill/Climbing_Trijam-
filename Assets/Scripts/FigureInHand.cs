@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -35,7 +33,10 @@ namespace Assets.Scripts
                 _holder = holder;
                 _holder.transform.parent = transform;
                 _holder.transform.localPosition = Vector3.zero;
-                _holder.transform.localScale = _holder.transform.localScale / _buttons[0].ScaleFigure;//Scale Figure
+                float xSign = Mathf.Sign(_holder.transform.localScale.x);
+                float ySign = Mathf.Sign(_holder.transform.localScale.y);
+                Vector3 newScale = new Vector3 (xSign, ySign, 1);
+                _holder.transform.localScale = newScale * LevelStats.sizeBlock/2; //_holder.transform.localScale / _buttons[0].ScaleFigure;//Scale Figure
             }
             else
             {
@@ -96,9 +97,14 @@ namespace Assets.Scripts
         public void ClearFigure()
         {
             _holder.ClearFigure();
+            foreach (var button in _buttons)
+            {
+                button.returnFigure(_holder);
+            }
         }
 
-            public void ChangeFigure()
+            
+        public void ChangeFigure()
         {
             
             

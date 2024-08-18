@@ -48,7 +48,7 @@ public class FigureHolder : MonoBehaviour
     public void ChangeFigure()
     {
         ClearFigure();
-        transform.localScale = _scaleFigure;
+        //transform.localScale = _scaleFigure;
         transform.rotation = Quaternion.identity;
         CreateFigure();
     }

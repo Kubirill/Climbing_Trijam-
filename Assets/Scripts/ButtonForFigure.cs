@@ -18,6 +18,7 @@ public class ButtonForFigure : MonoBehaviour
         _holder.Initialize(scaleFigure);
     }
 
+    [ContextMenu ("UpdateScale")]
     private void UpdateScale()
     {
         scaleFigure = _holder.transform.localScale.x;
@@ -53,8 +54,10 @@ public class ButtonForFigure : MonoBehaviour
             if (Mathf.Abs(localScaleFigure - 
                 _holder.transform.localScale.z) > 0.5f)
             {
-
-                _holder.transform.localScale *= scaleFigure;
+                float xSign = Mathf.Sign(_holder.transform.localScale.x);
+                float ySign = Mathf.Sign(_holder.transform.localScale.y);
+                Vector3 newScale = new Vector3(xSign, ySign, 1);
+                _holder.transform.localScale = newScale * localScaleFigure;
             }
         }
     }
@@ -66,8 +69,10 @@ public class ButtonForFigure : MonoBehaviour
         
         if (Mathf.Abs(localScaleFigure - _holder.transform.localScale.z)>0.5f)
         {
-
-            _holder.transform.localScale *= scaleFigure;
+            float xSign = Mathf.Sign(_holder.transform.localScale.x);
+            float ySign = Mathf.Sign(_holder.transform.localScale.y);
+            Vector3 newScale = new Vector3(xSign, ySign, 1);
+            _holder.transform.localScale = newScale * localScaleFigure;
         }
         UpdateScale();
         _holder.UpdateScale(ScaleFigure);

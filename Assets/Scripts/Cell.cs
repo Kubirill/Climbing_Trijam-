@@ -16,6 +16,7 @@ public class Cell : MonoBehaviour
     }
     public void SetStepToDelete(int step)
     {
+        LevelStats.AddPoints(1);
         transform.DOShakePosition(1,0.2f);
         _stepToDelete = step;
     }
@@ -39,6 +40,7 @@ public class Cell : MonoBehaviour
     {
         if (_stepToDelete == step) 
         {
+            
             //_stepToDelete = 0;
             Refresh?.Invoke(_position + LevelStats.offsetForCells);
         }
