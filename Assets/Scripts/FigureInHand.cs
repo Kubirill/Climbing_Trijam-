@@ -93,7 +93,12 @@ namespace Assets.Scripts
             }
         }
 
-        public void ChangeFigure()
+        public void ClearFigure()
+        {
+            _holder.ClearFigure();
+        }
+
+            public void ChangeFigure()
         {
             
             

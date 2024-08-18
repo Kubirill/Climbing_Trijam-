@@ -14,7 +14,6 @@ public class CameraFollow : MonoBehaviour
     }
     private void Resize(Vector2Int direction, Vector2Int size)
     {
-        print(LevelStats.sizeBlock);
         if ((sizeMap.x < size.x * LevelStats.sizeBlock / 2) 
             || (sizeMap.y < size.y * LevelStats.sizeBlock / 2))
         {

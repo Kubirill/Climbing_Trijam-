@@ -47,13 +47,18 @@ public class FigureHolder : MonoBehaviour
     }
     public void ChangeFigure()
     {
+        ClearFigure();
+        transform.localScale = _scaleFigure;
+        transform.rotation = Quaternion.identity;
+        CreateFigure();
+    }
+
+    public void ClearFigure()
+    {
         while (transform.childCount > 0)
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
-        transform.localScale = _scaleFigure;
-        transform.rotation = Quaternion.identity;
-        CreateFigure();
     }
 
     private void OnDestroy()

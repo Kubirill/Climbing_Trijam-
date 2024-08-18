@@ -63,14 +63,14 @@ public class ButtonForFigure : MonoBehaviour
         
         _holder.transform.parent = transform.parent;
         _holder.transform.localPosition = Vector3.zero;
-        UpdateScale();
-        _holder.UpdateScale(ScaleFigure);
-        if (holder==_holder) _holder.ChangeFigure();
+        
         if (Mathf.Abs(localScaleFigure - _holder.transform.localScale.z)>0.5f)
         {
 
             _holder.transform.localScale *= scaleFigure;
         }
-
+        UpdateScale();
+        _holder.UpdateScale(ScaleFigure);
+        if (holder == _holder) _holder.ChangeFigure();
     }
 }

@@ -4,12 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using TMPro;
-using Unity.VisualScripting;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.XR;
-using static UnityEditor.PlayerSettings;
 
 public class MapController : MonoBehaviour
 {
@@ -81,7 +77,7 @@ public class MapController : MonoBehaviour
         refCell.transform.localScale =Vector3.one* LevelStats.sizeBlock / 2;
         refCell.SetPosition(new Vector2Int(x- LevelStats.offsetForCells.x, y- LevelStats.offsetForCells.y));
         _tileMap[x].Insert(y,refCell);
-        refCell.MouseDown += ClickOnBlock;
+        refCell.MouseDown += ClickOnBlockAsync;
         refCell.Refresh += RefreshBlock;
         refCell.MouseEnter += HoldOnBlock;
     }
@@ -112,32 +108,50 @@ public class MapController : MonoBehaviour
         HoldOnBlock(_lastBlovck);
     }
 
-    private void ClickOnBlock(Vector2Int pos)
+    bool isWarking;
+
+    private void ClickOnBlockAsync(Vector2Int pos)
     {
+        if (isWarking) return;
+
+        isWarking = true;
         var figure = _hand.GetFigure();
-        if (figure == null) 
+        if (figure == null)
         {
+            isWarking = false;
             return;
         }
         if (!_spaceExists)
         {
+            isWarking = false;
             return;
         }
 
+        StartCoroutine(SetUpFigureAsync(pos, figure));
+    }
+
+    private IEnumerator SetUpFigureAsync(Vector2Int pos, FigureInfo figure)
+    {
         //var emptySpaces = _map.CheckSpace(figure.Figure, pos, figure.Pivot);
         if (_pickedSpases != null)
         {
             SetBlock(_pickedSpases);
             _map.SetBlock(_pickedSpases, 1); //”казать тип блока
             List<int> lines, columns;
-            _map.CheckLines(figure.Figure, pos, figure.Pivot,out lines,out columns);
-            LaunchDestroy(lines, columns, pos);
+            _map.CheckLines(figure.Figure, pos, figure.Pivot, out lines, out columns);
+
+            _hand.ClearFigure();
+            if (lines.Count + columns.Count > 0)
+            {
+                yield return LaunchDestroyAsync(lines, columns, pos);
+            }
             _hand.ChangeFigure();
         }
+        isWarking = false;
+        yield return new WaitForSeconds(0);
     }
 
-
-    private void LaunchDestroy(List<int> lines, List<int> columns, Vector2Int pivot)
+    private IEnumerator LaunchDestroyAsync(List<int> lines, List<int> columns, Vector2Int pivot)
     {
         int maxDistance = 2;
         for (int i = 0; i < lines.Count; i++)
@@ -174,7 +188,7 @@ public class MapController : MonoBehaviour
                
             }
         }
-        _timer.SetUpTimer(maxDistance);
+        yield return _timer.SetUpTimer(maxDistance);
     }
     public void SetBlock(List<Vector2Int> spaces)
     {

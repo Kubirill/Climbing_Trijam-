@@ -12,11 +12,11 @@ using UnityEngine;
 
         public event Action<int> destroyBlocks;
 
-        public void SetUpTimer(int Steps)
+        public IEnumerator SetUpTimer(int Steps)
         {
             _currentStep = 0;
             _maxStep = Steps;
-            StartCoroutine(TimerCountDown());
+            yield return StartCoroutine(TimerCountDown());
         }
         IEnumerator TimerCountDown()
         {
