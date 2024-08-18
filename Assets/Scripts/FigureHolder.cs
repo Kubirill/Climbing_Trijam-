@@ -7,15 +7,17 @@ public class FigureHolder : MonoBehaviour
     [SerializeField] private FigureInfo _figure;
 
     private Vector3 _scaleFigure;
+    private float _trueScale;
     public FigureInfo Figure { get { return _figure; } }
 
 
     [SerializeField] private GameObject _blockType;
     [SerializeField] private float _cellSize;
     // Start is called before the first frame update
-    private void Awake()
+    public void Initialize(float trueScale)
     {
         _scaleFigure = transform.localScale;
+        _trueScale = trueScale;
         CreateFigure();
     }
 
@@ -30,7 +32,7 @@ public class FigureHolder : MonoBehaviour
                 {
                     Vector3 position;
                     position = (new Vector2(x, y) - _figure.Pivot) 
-                        * _cellSize*transform.localScale;
+                        * _cellSize* _trueScale;
                     position = position + transform.position;
                     Instantiate(_blockType, position,Quaternion.identity, transform);
 

@@ -95,12 +95,14 @@ namespace Assets.Scripts
 
         public void ChangeFigure()
         {
-            _holder.ChangeFigure();
-            _holder = null;
+            
+            
             foreach (var button in _buttons)
             {
                 button.returnFigure();
             }
+            _holder.ChangeFigure();
+            _holder = null;
         }
         private void RotateFigure(bool inRight)
         {
