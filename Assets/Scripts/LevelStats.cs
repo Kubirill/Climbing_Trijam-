@@ -20,5 +20,9 @@ public static class LevelStats
         offsetForCells = Vector2Int.zero;
         blockInFigure = 3;
         sizeBlock *= 2;
-}
+    }
+    public static void LevelUp()
+    {
+        blockInFigure++;
+    }
 }

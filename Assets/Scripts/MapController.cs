@@ -335,4 +335,9 @@ public class MapController : MonoBehaviour
         _pickedSpases?.Clear();
         CreateMap();
     }
+    [ContextMenu ("levelUP")]
+    public void LevelUp()
+    {
+        LevelStats.LevelUp();
+    }
 }

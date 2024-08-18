@@ -19,7 +19,8 @@ public class FigureInfo
 
     public FigureInfo(GameObject blocktype)
     {
-        Figures figure = chooseClass(UnityEngine.Random.Range(3, 7));
+        //Figures figure = chooseClass(UnityEngine.Random.Range(3, 7));
+        Figures figure = chooseClass(LevelStats.blockInFigure);
         _figure = figure.GetFigure();
         _figureSize = figure.GetFigureSize();
         _pivot = getPivot();

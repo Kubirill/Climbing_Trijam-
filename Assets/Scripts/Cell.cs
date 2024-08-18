@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+using DG.Tweening;
+
 public class Cell : MonoBehaviour
 {
     private Vector2Int _position;
@@ -14,6 +16,7 @@ public class Cell : MonoBehaviour
     }
     public void SetStepToDelete(int step)
     {
+        transform.DOShakePosition(1,0.2f);
         _stepToDelete = step;
     }
 
