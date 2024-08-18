@@ -25,11 +25,11 @@ public class Cell : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        MouseEnter?.Invoke(_position);
+        MouseEnter?.Invoke(_position+ LevelStats.offsetForCells);
     }
     private void OnMouseDown()
     {
-        MouseDown?.Invoke(_position);
+        MouseDown?.Invoke(_position + LevelStats.offsetForCells);
     }
 
     public void DeleteBlock(int step)
@@ -37,7 +37,7 @@ public class Cell : MonoBehaviour
         if (_stepToDelete == step) 
         {
 
-            Refresh?.Invoke(_position);
+            Refresh?.Invoke(_position + LevelStats.offsetForCells);
         }
 
     }

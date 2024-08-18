@@ -171,4 +171,40 @@ public class Map
     {
         return _map[posX][posY];
     }
+
+    public void AddColumn(bool inRight)
+    {
+        if (inRight)
+        {
+            _map.Add(new List<int>());
+            for (int y = 0; y < _map[1].Count; y++)
+            {
+                _map[_map.Count - 1].Add(-1);
+            }
+        }
+        else
+        {
+            _map.Insert(0,new List<int>());
+            for (int y = 0; y < _map[1].Count; y++)
+            {
+                _map[0].Add(-1);
+            }
+        }
+    }
+
+    public void AddRow(bool abow)
+    {
+       for (int x =0; x < _map.Count; x++)
+        {
+            if (abow)
+            {
+                _map[x].Add(-1);
+            }
+            else
+            {
+                _map[x].Insert(0,-1);
+            }
+        }
+        
+    }
 }

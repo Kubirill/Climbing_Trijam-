@@ -2,6 +2,8 @@
 using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -42,6 +44,7 @@ public class MapController : MonoBehaviour
         for (int x = 0; x < _gridSize.x; x++)
         {
             _tileMap.Add(new List<Cell>());
+            
             for (int y = 0; y < _gridSize.y; y++)
             {
                 
@@ -64,11 +67,11 @@ public class MapController : MonoBehaviour
     private void CreateCell(int x, int y,Cell block)
     {
         Vector2 position;
-        position = (new Vector2(x, y) + _offset) * _cellSize;
+        position = (new Vector2(x - LevelStats.offsetForCells.x, y - LevelStats.offsetForCells.y) + _offset) * _cellSize;
         Cell refCell;
         refCell = Instantiate(block, position, Quaternion.identity, _parent);
-        refCell.SetPosition(new Vector2Int(x, y));
-        _tileMap[x].Add(refCell);
+        refCell.SetPosition(new Vector2Int(x- LevelStats.offsetForCells.x, y- LevelStats.offsetForCells.y));
+        _tileMap[x].Insert(y,refCell);
         refCell.MouseDown += ClickOnBlock;
         refCell.Refresh += RefreshBlock;
         refCell.MouseEnter += HoldOnBlock;
@@ -135,7 +138,6 @@ public class MapController : MonoBehaviour
                 if (_map.GetBlock(x,lines[i]) != -1)
                 {
                     int distance = Mathf.Abs(x - pivot.x) + Mathf.Abs(lines[i] - pivot.y) + 2;
-                    Debug.Log("Line" + lines[i] + " " + distance);
                     if (distance > maxDistance)
                     {
                         maxDistance = distance;
@@ -153,7 +155,6 @@ public class MapController : MonoBehaviour
                 if (_map.GetBlock(columns[i],y) != -1)
                 {
                     int distance = Mathf.Abs(columns[i] - pivot.x) + Mathf.Abs(y - pivot.y) + 2;
-                    Debug.Log("column" + columns[i] + " " + distance);
                     if (distance > maxDistance)
                     {
                         maxDistance = distance;
@@ -188,9 +189,119 @@ public class MapController : MonoBehaviour
 
     public void RefreshBlock(Vector2Int pos)
     {
+        pos = MakeEmpty(pos);
+        DigClosesdBlock( pos);
+    }
+
+    private void DigClosesdBlock(Vector2Int pos)
+    {
+        bool edge = (pos.x>= _tileMap.Count-1) ||//Change to _gridSize
+                        (pos.y >= _tileMap[0].Count-1) ||
+                        (pos.x <= 0) ||
+                        (pos.y <= 0);
+        if (edge)
+        {
+            return;
+        }
+        pos += new Vector2Int(1, 0);
+        if (_map.GetBlock(pos.x, pos.y) == -1)
+        {
+            pos = MakeEmpty(pos);
+            CheckEdge(pos);
+        }
+        pos += new Vector2Int(-1, 1);
+        if (_map.GetBlock( pos.x, pos.y) == -1)
+        {
+            pos = MakeEmpty(pos);
+            CheckEdge(pos);
+
+        }
+        pos += new Vector2Int(-1, -1);
+        if (_map.GetBlock( pos.x, pos.y) == -1)
+        {
+            pos = MakeEmpty(pos);
+            CheckEdge(pos);
+
+        }
+        pos += new Vector2Int(1, -1);
+        if (_map.GetBlock( pos.x, pos.y) == -1)
+        {
+            pos = MakeEmpty(pos);
+            CheckEdge(pos);
+
+        }
+    }
+
+    private Vector2Int MakeEmpty(Vector2Int pos)
+    {
+        _map.SetBlock(pos, 0);
         _tileMap[pos.x][pos.y].GetComponent<SpriteRenderer>().sprite =
             _emptyBlock.GetComponent<SpriteRenderer>().sprite;
+        return pos;
+    }
+
+    private void CheckEdge(Vector2Int pos)
+    {
+        if (pos.x == _gridSize.x - 1)
+        {
+            AddColumn(true);
+        }
+        if (pos.x == 0)
+        {
+            AddColumn(false);
+        }
+        if (pos.y == _gridSize.y - 1)
+        {
+            AddRow(true);
+        }
+        if (pos.y == 0)
+        {
+            AddRow(false);
+
+        }
+    }
+    private void AddColumn(bool inRight)
+    {
+        _map.AddColumn(inRight);
+        _gridSize.x++;
+        if (inRight)
+        {
+            _tileMap.Add(new List<Cell>());
+            for (int y = 0; y < _gridSize.y; y++)
+            {
+                CreateCell(_gridSize.x- 1, y, _closedBlock);
+            }
+        }
+        else
+        {
+            _tileMap.Insert(0, new List<Cell>());
+            LevelStats.offsetForCells.x++;
+            for (int y = 0; y < _gridSize.y; y++)
+            {
+                
+                CreateCell(0, y, _closedBlock);
+                
+            }
+        }
         
-        _map.SetBlock(pos,0);
+    }
+    private void AddRow(bool abow)
+    {
+        _map.AddRow(abow);
+        if (!abow) LevelStats.offsetForCells.y++;
+        for (int x = 0; x < _gridSize.x; x++)
+        {
+            if (abow)
+            {
+                CreateCell(x, _gridSize.y, _closedBlock);
+            }
+            else
+            {
+                
+                CreateCell(x, 0, _closedBlock);
+            }
+        }
+
+        _gridSize.y++;
     }
 }
