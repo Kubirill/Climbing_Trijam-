@@ -190,14 +190,17 @@ public class Map
                     lineFull = false;
                     break;
                 }
-                if ((notEmpty)&&(_map[x + offsetChecker.x][y] > 0))
+                if ((!notEmpty)&&(_map[x + offsetChecker.x][y] > 0))
                 {
                     notEmpty=true;
                 }
                 
 
             }
-            
+            if ((notEmpty) && (lineFull))
+            {
+                columns.Add(x + offsetChecker.x);
+            }
         }
 
         for (int y = 0; y < _figure[0].Count; y++)

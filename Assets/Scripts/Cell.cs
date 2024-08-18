@@ -17,7 +17,7 @@ public class Cell : MonoBehaviour
     public void SetStepToDelete(int step)
     {
         transform.DOShakePosition(1,0.2f);
-        if (step> _stepToDelete) _stepToDelete = step;
+        _stepToDelete = step;
     }
 
     public event Action<Vector2Int> MouseEnter;
@@ -39,7 +39,7 @@ public class Cell : MonoBehaviour
     {
         if (_stepToDelete == step) 
         {
-
+            //_stepToDelete = 0;
             Refresh?.Invoke(_position + LevelStats.offsetForCells);
         }
 
