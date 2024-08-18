@@ -63,6 +63,53 @@ public class Map
         }
         return freeSpaces;
     }
+
+    public bool CheckSpace(List<List<int>> _figure, Vector2Int clickedCell, Vector2Int pivot,
+        out List<Vector2Int> pointedSpaces, out List<Vector2Int> emptySpaces)
+    {
+
+        pointedSpaces = new List<Vector2Int>();
+        emptySpaces = new List<Vector2Int>();
+        bool spaceExists = true;
+        Vector2Int offsetChecker = clickedCell - pivot;
+
+        for (int x = 0; x < _figure.Count; x++)
+        {
+            for (int y = 0; y < _figure[0].Count; y++)
+            {
+                if (_figure[x][y] > 0)
+                {
+
+                    bool notEmptyCell = (x + offsetChecker.x >= _map.Count) ||
+                        (y + offsetChecker.y >= _map[0].Count) ||
+                        (x + offsetChecker.x < 0) ||
+                        (y + offsetChecker.y < 0);
+                    if (!notEmptyCell)
+                    {
+
+                        pointedSpaces.Add(new Vector2Int(x + offsetChecker.x, y + offsetChecker.y));
+                    }
+
+                    if (!notEmptyCell) notEmptyCell =
+                            (_map[x + offsetChecker.x][y + offsetChecker.y] != 0);
+
+                    if (notEmptyCell)
+                    {
+                        spaceExists=false;
+                    }
+                    else
+                    {
+                        emptySpaces = new List<Vector2Int>();
+                    }
+                }
+
+
+
+            }
+        }
+        return spaceExists;
+    }
+
     public void CheckLines(List<List<int>> _figure, Vector2Int clickedCell, Vector2Int pivot,
         out List<int> lines, out List<int> columns)
     {

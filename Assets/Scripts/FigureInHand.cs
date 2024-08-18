@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace Assets.Scripts
         [SerializeField] private FigureHolder _holder;
         [SerializeField] private List<ButtonForFigure> _buttons;
 
+        public event Action BlockChange;
+
         public void Initialize()
         {
             foreach (var button in _buttons)
@@ -21,6 +24,7 @@ namespace Assets.Scripts
 
         private void ButtonClicked(FigureHolder holder)
         {
+
             foreach (var button in _buttons)
             {
                 button.returnFigure(holder);
@@ -31,7 +35,7 @@ namespace Assets.Scripts
                 _holder = holder;
                 _holder.transform.parent = transform;
                 _holder.transform.localPosition = Vector3.zero;
-                _holder.transform.localScale = Vector3.one;
+                _holder.transform.localScale = _holder.transform.localScale / _buttons[0].ScaleFigure;//Scale Figure
             }
             else
             {
@@ -49,11 +53,11 @@ namespace Assets.Scripts
         }
 
         private void Update()
-        {/*
+        {
             if (_holder == null)
             {
                 return;
-            }*/
+            }
             MoveFigure();
             ManipulateFigure();
         }
@@ -100,7 +104,8 @@ namespace Assets.Scripts
         }
         private void RotateFigure(bool inRight)
         {
-            _holder.transform.Rotate(Vector3.forward, inRight ? 90: -90);
+            _holder.transform.Rotate(Vector3.forward, inRight ? -90: 90);
+            BlockChange?.Invoke();
         }
         private void FlipFigure (bool horizontal)
         {
@@ -108,7 +113,7 @@ namespace Assets.Scripts
                 horizontal ? -1 : 1)*_holder.transform.localScale.x,
                 (horizontal ? 1 : -1) * _holder.transform.localScale.y, 
                 _holder.transform.localScale.z);
-
+            BlockChange?.Invoke();
         }
     }
 }

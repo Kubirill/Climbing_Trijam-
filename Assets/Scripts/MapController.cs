@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
+using static UnityEditor.PlayerSettings;
 
 public class MapController : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class MapController : MonoBehaviour
     public void Initialize()
     {
         _map= new Map(_gridSize);
+        _hand.BlockChange +=RefreshPick;
         CreateMap();
     }
     
@@ -69,6 +71,33 @@ public class MapController : MonoBehaviour
         _tileMap[x].Add(refCell);
         refCell.MouseDown += ClickOnBlock;
         refCell.Refresh += RefreshBlock;
+        refCell.MouseEnter += HoldOnBlock;
+    }
+
+    List<Vector2Int> _pickedSpases;
+    bool _spaceExists;
+    Vector2Int _lastBlovck ;
+    private void HoldOnBlock(Vector2Int pos)
+    {
+        _lastBlovck = pos;
+        if (_pickedSpases !=null)
+        {
+            PickBlock(_pickedSpases, false);
+        }
+        
+        var figure = _hand.GetFigure();
+        if (figure == null)
+        {
+            return;
+        }
+        List<Vector2Int> emptySpaces;
+        _spaceExists = _map.CheckSpace(figure.Figure, pos, figure.Pivot,
+            out _pickedSpases, out emptySpaces);
+        PickBlock(_pickedSpases, true);
+    }
+    private void RefreshPick()
+    {
+        HoldOnBlock(_lastBlovck);
     }
 
     private void ClickOnBlock(Vector2Int pos)
@@ -78,11 +107,16 @@ public class MapController : MonoBehaviour
         {
             return;
         }
-        var emptySpaces = _map.CheckSpace(figure.Figure, pos, figure.Pivot);
-        if (emptySpaces!=null)
+        if (!_spaceExists)
         {
-            SetBlock(emptySpaces);
-            _map.SetBlock(emptySpaces,1); //”казать тип блока
+            return;
+        }
+
+        //var emptySpaces = _map.CheckSpace(figure.Figure, pos, figure.Pivot);
+        if (_pickedSpases != null)
+        {
+            SetBlock(_pickedSpases);
+            _map.SetBlock(_pickedSpases, 1); //”казать тип блока
             List<int> lines, columns;
             _map.CheckLines(figure.Figure, pos, figure.Pivot,out lines,out columns);
             LaunchDestroy(lines, columns, pos);
@@ -141,6 +175,17 @@ public class MapController : MonoBehaviour
         }
 
     }
+
+    public void PickBlock(List<Vector2Int> spaces,bool pick)
+    {
+        foreach (Vector2Int emptySpace in spaces)
+        {
+            _tileMap[emptySpace.x][emptySpace.y].
+                GetComponent<SpriteRenderer>().color = new Color(1, pick?0.5f:1, 1);
+        }
+
+    }
+
     public void RefreshBlock(Vector2Int pos)
     {
         _tileMap[pos.x][pos.y].GetComponent<SpriteRenderer>().sprite =

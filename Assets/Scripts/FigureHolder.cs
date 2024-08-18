@@ -45,7 +45,8 @@ public class FigureHolder : MonoBehaviour
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
-        
+        transform.localScale = _scaleFigure;
+        transform.rotation = Quaternion.identity;
         CreateFigure();
     }
 
