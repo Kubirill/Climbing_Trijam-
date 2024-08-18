@@ -14,12 +14,17 @@ public class ButtonForFigure : MonoBehaviour
     private void Awake()
     {
         localScaleFigure = _holder.transform.localScale.x;
+        UpdateScale();
+        _holder.Initialize(scaleFigure);
+    }
+
+    private void UpdateScale()
+    {
         scaleFigure = _holder.transform.localScale.x;
         for (Transform obj = _holder.transform; obj.parent != null; obj = obj.parent)
         {
-            scaleFigure= scaleFigure*obj.parent.localScale.y;
+            scaleFigure = scaleFigure * obj.parent.localScale.y;
         }
-        _holder.Initialize(scaleFigure);
     }
 
     private void OnMouseEnter()
@@ -53,11 +58,14 @@ public class ButtonForFigure : MonoBehaviour
             }
         }
     }
-    public void returnFigure()
+    public void returnFigure(FigureHolder holder,bool one)
     {
         
         _holder.transform.parent = transform.parent;
         _holder.transform.localPosition = Vector3.zero;
+        UpdateScale();
+        _holder.UpdateScale(ScaleFigure);
+        if (holder==_holder) _holder.ChangeFigure();
         if (Mathf.Abs(localScaleFigure - _holder.transform.localScale.z)>0.5f)
         {
 

@@ -11,8 +11,14 @@ public static class LevelStats
 
     public static void NewGame()
     {
-        
+        sizeBlock = 2;
         offsetForCells =Vector2Int.zero;
         blockInFigure = 3;
     }
+    public static void Merge()
+    {
+        offsetForCells = Vector2Int.zero;
+        blockInFigure = 3;
+        sizeBlock *= 2;
+}
 }

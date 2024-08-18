@@ -20,7 +20,10 @@ public class FigureHolder : MonoBehaviour
         _trueScale = trueScale;
         CreateFigure();
     }
-
+    public void UpdateScale(float trueScale)
+    {
+        _trueScale = trueScale;
+    }
     private void CreateFigure()
     {
         _figure = new FigureInfo(_blockType);

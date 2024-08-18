@@ -37,6 +37,7 @@ public class MapController : MonoBehaviour
   
     public void CreateMap()
     {
+        _offset = -((_map.GetSize() - Vector2.one)/* *LevelStats.sizeBlock*/ / 2f);
         while (transform.childCount > 0)
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
@@ -56,6 +57,12 @@ public class MapController : MonoBehaviour
                     case 0:
                         CreateCell(x, y, _emptyBlock);
                         break;
+                        /*
+                    case 1:
+                        CreateCell(x, y, _emptyBlock);
+                        _tileMap[x][y].
+                            GetComponent<SpriteRenderer>().sprite = _block;
+                        break;*/
 
                     default:
                         CreateCell(x, y, _closedBlock);
@@ -71,6 +78,7 @@ public class MapController : MonoBehaviour
         position = (new Vector2(x - LevelStats.offsetForCells.x, y - LevelStats.offsetForCells.y) + _offset) * _cellSize;
         Cell refCell;
         refCell = Instantiate(block, position, Quaternion.identity, _parent);
+        refCell.transform.localScale =Vector3.one* LevelStats.sizeBlock / 2;
         refCell.SetPosition(new Vector2Int(x- LevelStats.offsetForCells.x, y- LevelStats.offsetForCells.y));
         _tileMap[x].Insert(y,refCell);
         refCell.MouseDown += ClickOnBlock;
@@ -315,5 +323,16 @@ public class MapController : MonoBehaviour
         }
 
         _gridSize.y++;
+    }
+
+    [ContextMenu ("Merge")]
+    public void MergeMap()
+    {
+        LevelStats.Merge();
+        _cellSize=LevelStats.sizeBlock;
+        _map.MergeMap();
+        _gridSize= _map.GetSize();
+        _pickedSpases?.Clear();
+        CreateMap();
     }
 }

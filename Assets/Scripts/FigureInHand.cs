@@ -99,9 +99,9 @@ namespace Assets.Scripts
             
             foreach (var button in _buttons)
             {
-                button.returnFigure();
+                button.returnFigure(_holder,true);
             }
-            _holder.ChangeFigure();
+           // _holder.ChangeFigure();
             _holder = null;
         }
         private void RotateFigure(bool inRight)

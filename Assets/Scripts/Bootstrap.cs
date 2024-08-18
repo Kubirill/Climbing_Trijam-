@@ -10,6 +10,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private CameraFollow _camera;
     private void Awake()
     {
+        LevelStats.NewGame();
         _map.Initialize();
         _figureInHand.Initialize();
         _camera.Initialize(_map);

@@ -12,6 +12,10 @@ public class Map
     {
         GenerateGrid(gridSize);
     }
+    public Vector2Int GetSize()
+    {
+        return new Vector2Int(_map.Count, _map[0].Count);
+    }
     private void GenerateGrid(Vector2Int gridSize)
     {
         _map = new List<List<int>>();
@@ -120,6 +124,7 @@ public class Map
         for (int x = 0; x < _figure.Count; x++)
         {
             bool lineFull = true;
+            bool notEmpty = false;
             for (int y = 0; y < _map[x].Count; y++)
             {
                 if (_map[x + offsetChecker.x][y] == 0)
@@ -127,8 +132,14 @@ public class Map
                     lineFull = false;
                     break;
                 }
+                if ((notEmpty)&&(_map[x + offsetChecker.x][y] > 0))
+                {
+                    notEmpty=true;
+                }
+                
+
             }
-            if (lineFull)
+            if ((!notEmpty) && (lineFull))
             {
                 columns.Add(x + offsetChecker.x);
             }
@@ -137,6 +148,7 @@ public class Map
         for (int y = 0; y < _figure[0].Count; y++)
         {
             bool lineFull = true;
+            bool notEmpty = false;
             for (int x = 0; x < _map.Count; x++)
             {
                 if (_map[x][y + offsetChecker.y] == 0)
@@ -144,8 +156,12 @@ public class Map
                     lineFull = false;
                     break;
                 }
+                if (_map[x][y + offsetChecker.y] > 0)
+                {
+                    notEmpty = true;
+                }
             }
-            if (lineFull)
+            if ((notEmpty) && (lineFull))
             {
                 lines.Add(y + offsetChecker.y);
             }
@@ -206,5 +222,60 @@ public class Map
             }
         }
         
+    }
+    public void MergeMap()
+    {
+
+        List<List<int>> mergedMap = new List<List<int>>();
+        for (int x = 0; x < (_map.Count / 2f); x++)
+        {
+            mergedMap.Add(new List<int>());
+            for (int y = 0; y < (_map[1].Count / 2f); y++)
+            {
+                int typeBlock = CountTypeBlocks(x, y);
+                mergedMap[x].Add(typeBlock);
+            }
+        }
+        _map = mergedMap;
+    }
+    int CountTypeBlocks(int startX,int startY)
+    {
+        int closeCount = 0;
+        int emptyCoint = 0;
+        int blockCount = 0;
+        for (int x = 0; x < 2; x++)
+        {
+            for (int y = 0; y < 2; y++)
+            {
+                if ((startX * 2 + x >= _map.Count - 1) ||
+                    (startY * 2 + y >= _map[0].Count - 1))
+                {
+                    closeCount++;
+                    
+                }
+                else
+                {
+                    switch (_map[startX * 2 + x][startY * 2 + y])
+                    {
+                        case 1:
+                            blockCount++;
+                            break;
+                        case 0:
+                            emptyCoint++;
+                            break;
+                        default:
+                            closeCount++;
+                            break;
+                    }
+                }
+                
+
+
+            }
+        }
+        //Debug.Log("c "+closeCount + "e " + emptyCoint + "b " + blockCount);
+        if (closeCount >= 2) return -1;
+        if (emptyCoint >= 2) return 0;
+        return 1;
     }
 }
