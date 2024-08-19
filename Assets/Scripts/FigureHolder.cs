@@ -107,7 +107,7 @@ public class FigureHolder : MonoBehaviour
         }
         _animation.rotation=Quaternion.identity;
         yield return new WaitForEndOfFrame();
-        LevelStats.gameActiveBlock.Remove("Manipulate");
+        
 
     }
 

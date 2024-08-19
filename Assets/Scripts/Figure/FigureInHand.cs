@@ -13,6 +13,7 @@ namespace Assets.Scripts
         
 
         public event Action BlockChange;
+        public event Action BecameInactive;
 
         public void Initialize()
         {
@@ -76,22 +77,22 @@ namespace Assets.Scripts
             if (Input.GetKeyDown(KeyCode.E))
             {
                 _holder.Figure.RotateFigure(true);
-                RotateFigure(true);
+                StartCoroutine(RotateFigure(true));
             }
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 _holder.Figure.RotateFigure(false);
-                RotateFigure(false);
+                StartCoroutine( RotateFigure(false));
             }
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S))
             {
                 _holder.Figure.FlipFigure(false);
-                FlipFigure(false);
+                StartCoroutine(FlipFigure(false));
             }
             if (Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.A))
             {
                 _holder.Figure.FlipFigure(true);
-                FlipFigure(true);
+                StartCoroutine(FlipFigure(true));
 
             }
         }
@@ -117,23 +118,29 @@ namespace Assets.Scripts
            // _holder.ChangeFigure();
             _holder = null;
         }
-        private void RotateFigure(bool inRight)
+        private IEnumerator RotateFigure(bool inRight)
         {
             LevelStats.gameActiveBlock.Add("Manipulate");
+            BecameInactive?.Invoke();
             //_holder.transform.Rotate(Vector3.forward, inRight ? -90: 90);
-            StartCoroutine (_holder.Rotation(inRight ? "RR" : "RL"));
+            yield return (_holder.Rotation(inRight ? "RR" : "RL"));
+           
+            LevelStats.gameActiveBlock.Remove("Manipulate");
             BlockChange?.Invoke();
         }
         
 
-        private void FlipFigure (bool horizontal)
+        private IEnumerator FlipFigure (bool horizontal)
         {
             /* LevelStats.gameActiveBlock.Add("Manipulate");
              _holder.transform.localScale = new Vector3((
                  horizontal ? -1 : 1)*_holder.transform.localScale.x,
                  (horizontal ? 1 : -1) * _holder.transform.localScale.y, 
                  _holder.transform.localScale.z);*/
-            StartCoroutine(_holder.Rotation(horizontal ? "FH" : "FV"));
+            BecameInactive?.Invoke();
+            yield return (_holder.Rotation(horizontal ? "FH" : "FV"));
+            
+            LevelStats.gameActiveBlock.Remove("Manipulate");
             BlockChange?.Invoke();
         }
     }

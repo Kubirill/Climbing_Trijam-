@@ -42,6 +42,7 @@ public class MapController : MonoBehaviour
         _hand = hand;
         _map= new Map(_gridSize);
         _hand.BlockChange +=RefreshPick;
+        _hand.BecameInactive += ExitFromBlock;
         StartCoroutine(CreateMap());
         //LevelStats.MergeStart += MergeMap;
     }
