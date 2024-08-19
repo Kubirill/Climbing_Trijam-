@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f78768aae937f4dab70bfea68d9a29, type: 3}
   m_Name: Cow
   m_EditorClassIdentifier: 
-  mainFigure: {fileID: 0}
-  figureOnEarthPrevision: {fileID: 0}
-  figureOnEarth: {fileID: 0}
-  figureWrong: {fileID: 0}
-  figureTake: {fileID: 0}
-  figurePlace: {fileID: 0}
+  _mainFigure: {fileID: 21300000, guid: cfcc54209b337834bb0174fcd08bcc50, type: 3}
+  _figureOnEarthPrevision: {fileID: 21300000, guid: 6085d2c8d21f9db4fb64e9cd1ac0e2f8, type: 3}
+  _figureOnEarth: {fileID: 21300000, guid: 8dada8395a8c07e468766cd1dd66f5a5, type: 3}
+  _figureWrong: {fileID: 21300000, guid: a6d1e03a0aa1cbe49a1646222db32111, type: 3}
+  _earth: {fileID: 21300000, guid: 575431376c876374983b2f4e874acf3b, type: 3}
+  _figureTake: {fileID: 0}
+  _figurePlace: {fileID: 0}
