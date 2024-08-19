@@ -34,6 +34,7 @@ public class Cell : MonoBehaviour
     }
 
     public event Action<Vector2Int> MouseEnter;
+    public event Action MouseExit;
 
     
     public event Action<Vector2Int> MouseDown;
@@ -47,7 +48,10 @@ public class Cell : MonoBehaviour
     {
         MouseDown?.Invoke(_position + LevelStats.offsetForCells);
     }
-
+    private void OnMouseExit()
+    {
+        MouseExit?.Invoke();
+    }
     public void DeleteBlock(int step)
     {
         if (_stepToDelete == step) 

@@ -25,9 +25,9 @@ public class MapController : MonoBehaviour
 
     [Header("Block ref")]
 
+    [SerializeField] private GameIcons _icons;
     [SerializeField] private Cell _emptyBlock;
     [SerializeField] private Cell _closedBlock;
-    [SerializeField] private Sprite _block;
 
 
 
@@ -103,12 +103,24 @@ public class MapController : MonoBehaviour
         refCell.MouseDown += ClickOnBlockAsync;
         refCell.Refresh += RefreshBlock;
         refCell.MouseEnter += HoldOnBlock;
+        refCell.MouseExit += ExitFromBlock;
         
     }
 
-    
+    private void ExitFromBlock()
+    {
+
+        if (_pickedSpases != null)
+        {
+            PickBlock(_pickedSpases, false);
+            _pickedSpases.Clear();
+        }
+
+    }
+
     private void HoldOnBlock(Vector2Int pos)
     {
+        if (LevelStats.gameActiveBlock.Count > 0) return;
         _lastBlovck = pos;
         if (_pickedSpases !=null)
         {
@@ -163,6 +175,7 @@ public class MapController : MonoBehaviour
             List<int> lines, columns;
              _map.CheckLines(figure.Figure, pos, figure.Pivot, out lines, out columns);
             //_map.CheckLines(_pickedSpases, out lines, out columns);
+            PointsManager._lines = lines.Count + columns.Count;
             _hand.ClearFigure();
             if (lines.Count + columns.Count > 0)
             {
@@ -229,7 +242,7 @@ public class MapController : MonoBehaviour
         foreach (Vector2Int emptySpace in spaces)
         {
             _tileMap[emptySpace.x][emptySpace.y].
-                GetComponent<SpriteRenderer>().sprite = _block;
+                GetComponent<SpriteRenderer>().sprite = _icons._figureOnEarth;
         }
 
     }
@@ -238,8 +251,17 @@ public class MapController : MonoBehaviour
     {
         foreach (Vector2Int emptySpace in spaces)
         {
-            _tileMap[emptySpace.x][emptySpace.y].
-                GetComponent<SpriteRenderer>().color = new Color(1, pick?0.5f:1, 1);
+            if (_map.GetBlock(emptySpace.x, emptySpace.y) == 0)
+            {
+                _tileMap[emptySpace.x][emptySpace.y].
+                        GetComponent<SpriteRenderer>().sprite = pick ?
+                                _icons._figureOnEarthPrevision : _icons._earth;
+            }
+            else
+            {
+                _tileMap[emptySpace.x][emptySpace.y].
+                        GetComponent<SpriteRenderer>().color = new Color(1, pick ? 0.5f : 1, 1);
+            }
         }
 
     }
@@ -302,7 +324,7 @@ public class MapController : MonoBehaviour
     
     private void MakeEmpty(Vector2Int pos) //Destroy Block
     {
-        BlockDestroyed(_map.GetBlock(pos.x, pos.y));
+        BlockDestroyed?.Invoke(_map.GetBlock(pos.x, pos.y));
         _map.SetBlock(pos, 0);
         _tileMap[pos.x][pos.y].GetComponent<SpriteRenderer>().sprite =
             _emptyBlock.GetComponent<SpriteRenderer>().sprite;
