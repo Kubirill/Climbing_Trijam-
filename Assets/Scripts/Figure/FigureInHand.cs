@@ -137,11 +137,13 @@ namespace Assets.Scripts
                  horizontal ? -1 : 1)*_holder.transform.localScale.x,
                  (horizontal ? 1 : -1) * _holder.transform.localScale.y, 
                  _holder.transform.localScale.z);*/
+            LevelStats.gameActiveBlock.Add("Manipulate");
             BecameInactive?.Invoke();
             yield return (_holder.Rotation(horizontal ? "FH" : "FV"));
             
             LevelStats.gameActiveBlock.Remove("Manipulate");
             BlockChange?.Invoke();
         }
+
     }
 }

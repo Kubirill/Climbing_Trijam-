@@ -13,6 +13,7 @@ public static class LevelStats
     public static List<string> gameActiveBlock = new List<string>();
     public static int points = 0;
     public static int curLevel = 6;
+    public static GameIcons _icons;
     public static void NewGame()
     {
         sizeBlock = 2;

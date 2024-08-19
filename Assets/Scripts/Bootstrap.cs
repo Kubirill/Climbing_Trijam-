@@ -11,6 +11,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] Difficulty _difficulty;
     [SerializeField] CostPoints _costPoints;
     [SerializeField] private LevelSliderController _levelSlider;
+    [SerializeField] private PointText _pointText;
 
 
     private DifficultyManager _difficultyManager;
@@ -24,5 +25,6 @@ public class Bootstrap : MonoBehaviour
         _levelSlider.Initialize();
         _difficultyManager = new DifficultyManager(_difficulty,_map);
         _pointsManager = new PointsManager(_costPoints);
+        _pointText.Initialize();
     }
 }

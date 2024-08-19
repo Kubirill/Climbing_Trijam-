@@ -11,6 +11,7 @@ using UnityEngine;
 
 
         public event Action<int> destroyBlocks;
+        public static event Action TimerStop;
 
         public IEnumerator SetUpTimer(int Steps)
         {
@@ -26,6 +27,7 @@ using UnityEngine;
                 yield return new WaitForSeconds(_lengthDestroy / _maxStep);
                 destroyBlocks?.Invoke(_currentStep);
             }
-            destroyBlocks=null;
+        TimerStop?.Invoke();
+        destroyBlocks =null;
         }
     }

@@ -44,6 +44,7 @@ public class MapController : MonoBehaviour
         _hand.BlockChange +=RefreshPick;
         _hand.BecameInactive += ExitFromBlock;
         StartCoroutine(CreateMap());
+        LevelStats._icons = _icons;
         //LevelStats.MergeStart += MergeMap;
     }
 
@@ -57,7 +58,7 @@ public class MapController : MonoBehaviour
     public IEnumerator CreateMap()
     {
         _offset = -((_map.GetSize() - Vector2.one)/* *LevelStats.sizeBlock*/ / 2f);
-        while (transform.childCount > 0)
+        while (_parent.transform.childCount > 0)
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
@@ -406,17 +407,23 @@ public class MapController : MonoBehaviour
     [ContextMenu ("Merge")]
     public IEnumerator MergeMap()
     {
+        yield return new WaitForSeconds(2);
+        yield return CheckBlockBeforeMerge();
         yield return new WaitForSeconds(1);
-        _cellSize=LevelStats.sizeBlock;
+        LevelStats.LaunchMerge();
+        _cellSize =LevelStats.sizeBlock;
         _map.MergeMap();
         _gridSize= _map.GetSize();
         _pickedSpases?.Clear();
         yield return CreateMap();
         LevelStats.MergeCompleete();
+        LevelStats.gameActiveBlock.Remove("Merge");
     }
     public void LaunchMerge()
     {
-        LevelStats.LaunchMerge();
+        if (LevelStats.gameActiveBlock.Contains("Merge")) return;
+        LevelStats.gameActiveBlock.Add("Merge");
+        
         StartCoroutine(MergeMap());
     }
 
@@ -425,4 +432,21 @@ public class MapController : MonoBehaviour
     {
         LevelStats.LevelUp();
     }
+
+    private IEnumerator CheckBlockBeforeMerge()
+    {
+        for (int x = 0; x < _gridSize.x; x++)
+        {
+            for (int y = 0; y < _gridSize.y; y++)
+            {
+                if (_map.GetBlock(x, y) == 1)
+                {
+                    _tileMap[x][y].MergeDestroy();
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
 }
