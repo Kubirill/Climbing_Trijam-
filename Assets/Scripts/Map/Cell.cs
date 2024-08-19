@@ -44,10 +44,13 @@ public class Cell : MonoBehaviour
 
     private void OnMouseEnter()
     {
+
         MouseEnter?.Invoke(_position+ LevelStats.offsetForCells);
     }
     private void OnMouseDown()
     {
+
+        
         MouseDown?.Invoke(_position + LevelStats.offsetForCells);
     }
     private void OnMouseExit()
@@ -77,10 +80,11 @@ public class Cell : MonoBehaviour
                     ghost.transform.GetComponentInChildren<TMPro.TMP_Text>().text =
                         PointsManager.GetCurrentBlockClosedCost().ToString();
                 }
-
+                SoundManager.LaunchSound(SoundType._blockDestroy);
             }
             else
             {
+                SoundManager.LaunchSound(SoundType._elementDestroy);
                 if (PointsManager.GetCurrentBlockCost() > 0)
                 {
                     ghost = Instantiate(_pointText, transform.position, Quaternion.identity);

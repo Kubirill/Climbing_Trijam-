@@ -16,7 +16,7 @@ public class MapController : MonoBehaviour
 
     List<Vector2Int> _pickedSpases;
     bool _spaceExists;
-    Vector2Int _lastBlovck;
+    Vector2Int _lastBlock;
 
     [SerializeField] private Vector2Int _gridSize;
     [SerializeField] private float _cellSize;
@@ -122,8 +122,11 @@ public class MapController : MonoBehaviour
 
     private void HoldOnBlock(Vector2Int pos)
     {
+        _lastBlock = pos;
         if (LevelStats.gameActiveBlock.Count > 0) return;
-        _lastBlovck = pos;
+
+        SoundManager.LaunchSound(SoundType._figureSelected);
+        
         if (_pickedSpases !=null)
         {
             PickBlock(_pickedSpases, false);
@@ -141,7 +144,7 @@ public class MapController : MonoBehaviour
     }
     private void RefreshPick()
     {
-        HoldOnBlock(_lastBlovck);
+        HoldOnBlock(_lastBlock);
     }
 
     
@@ -159,10 +162,12 @@ public class MapController : MonoBehaviour
         }
         if (!_spaceExists)
         {
+            StartCoroutine( _hand.WrongClick());
+            SoundManager.LaunchSound(SoundType._forbidenMove);
             LevelStats.gameActiveBlock.Remove("Click");
             return;
         }
-
+        SoundManager.LaunchSound(SoundType._figurePlace);
         StartCoroutine(SetUpFigureAsync(pos, figure));
     }
 

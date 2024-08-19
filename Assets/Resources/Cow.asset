@@ -17,5 +17,11 @@ MonoBehaviour:
   _figureOnEarth: {fileID: 21300000, guid: 8dada8395a8c07e468766cd1dd66f5a5, type: 3}
   _figureWrong: {fileID: 21300000, guid: a6d1e03a0aa1cbe49a1646222db32111, type: 3}
   _earth: {fileID: 21300000, guid: 575431376c876374983b2f4e874acf3b, type: 3}
-  _figureTake: {fileID: 0}
-  _figurePlace: {fileID: 0}
+  _figureTake: {fileID: 8300000, guid: c37d893bbfe9feb4f9e3fe32118ade88, type: 3}
+  _buttonPress: {fileID: 8300000, guid: a0a097231a4745a40824d0f02df4fa5e, type: 3}
+  _figureSelected: {fileID: 8300000, guid: 0e4d6941079c6444e8a782bf2ee8944b, type: 3}
+  _figurePlace: {fileID: 8300000, guid: 9cf6226f5e9cfbf469d6e4877bfb7abd, type: 3}
+  _elementDestroy: {fileID: 8300000, guid: 0ec02fe24f89f904ba0f84fb0f6fceaf, type: 3}
+  _blockDestroy: {fileID: 8300000, guid: 88fc6997fd7b33049b0053270976225e, type: 3}
+  _forbidenMove: {fileID: 8300000, guid: c9990f214dddda449b29239fade1d2a7, type: 3}
+  _levelUp: {fileID: 8300000, guid: 6204a43a67c95cf4eafb950081f1e22e, type: 3}

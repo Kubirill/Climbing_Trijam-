@@ -26,7 +26,6 @@ public class PointsManager
             _points += _costPoints.pointsForClosedBlock * _lines;
 
         }
-        UnityEngine.Debug.Log (_points);
     }
     public static int GetCurrentBlockCost()
     {

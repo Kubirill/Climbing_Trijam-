@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace Assets.Scripts
 
         private void ButtonClicked(FigureHolder holder)
         {
-
+            SoundManager.LaunchSound(SoundType._buttonPress);
             foreach (var button in _buttons)
             {
                 button.returnFigure(holder);
@@ -59,9 +60,11 @@ namespace Assets.Scripts
 
         private void Update()
         {
+
             if (_holder == null) return;
-            if (LevelStats.gameActiveBlock.Count > 0) return;
             MoveFigure();
+            if (LevelStats.gameActiveBlock.Count > 0) return;
+            
             ManipulateFigure();
         }
 
@@ -144,6 +147,17 @@ namespace Assets.Scripts
             LevelStats.gameActiveBlock.Remove("Manipulate");
             BlockChange?.Invoke();
         }
+        
+        public IEnumerator WrongClick()
+        {
+            if (transform.localScale.x > 0.9)
+            {
+                transform.DOScale(Vector3.one * 0.8f, 0.2f);
+                yield return new WaitForSeconds(0.2f);
+                transform.DOScale(Vector3.one, 0.2f);
 
+            }
+
+        }
     }
 }

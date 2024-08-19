@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10096acc5bc499a45a88814361c4336f, type: 3}
   m_Name: Points
   m_EditorClassIdentifier: 
+  isSimpleScore: 1
   pointsForBlock: 10
+  isMergeBlockScore: 1
   pointsForBlockAfterMerge: 30
+  isClosedScore: 1
+  pointsForClosedBlock: 5
