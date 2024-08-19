@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2757969921782602803}
   - component: {fileID: 4259901706972564159}
   - component: {fileID: -5201225695694912002}
+  - component: {fileID: 7989179798393281176}
   m_Layer: 0
   m_Name: Purple
   m_TagString: Untagged
@@ -97,3 +98,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5105477ff827a0c4a8f24b8bf3ff0000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!111 &7989179798393281176
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143985475455870498}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,11 +10,13 @@ namespace Assets.Scripts
     {
         [SerializeField] private FigureHolder _holder;
         [SerializeField] private List<ButtonForFigure> _buttons;
+        
 
         public event Action BlockChange;
 
         public void Initialize()
         {
+                
             foreach (var button in _buttons)
             {
                 button.MouseDown += ButtonClicked;
@@ -55,10 +58,8 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            if (_holder == null)
-            {
-                return;
-            }
+            if (_holder == null) return;
+            if (LevelStats.gameActiveBlock.Count > 0) return;
             MoveFigure();
             ManipulateFigure();
         }
@@ -71,6 +72,7 @@ namespace Assets.Scripts
 
         private void ManipulateFigure()
         {
+            
             if (Input.GetKeyDown(KeyCode.E))
             {
                 _holder.Figure.RotateFigure(true);
@@ -117,15 +119,21 @@ namespace Assets.Scripts
         }
         private void RotateFigure(bool inRight)
         {
-            _holder.transform.Rotate(Vector3.forward, inRight ? -90: 90);
+            LevelStats.gameActiveBlock.Add("Manipulate");
+            //_holder.transform.Rotate(Vector3.forward, inRight ? -90: 90);
+            StartCoroutine (_holder.Rotation(inRight ? "RR" : "RL"));
             BlockChange?.Invoke();
         }
+        
+
         private void FlipFigure (bool horizontal)
         {
-            _holder.transform.localScale = new Vector3((
-                horizontal ? -1 : 1)*_holder.transform.localScale.x,
-                (horizontal ? 1 : -1) * _holder.transform.localScale.y, 
-                _holder.transform.localScale.z);
+            /* LevelStats.gameActiveBlock.Add("Manipulate");
+             _holder.transform.localScale = new Vector3((
+                 horizontal ? -1 : 1)*_holder.transform.localScale.x,
+                 (horizontal ? 1 : -1) * _holder.transform.localScale.y, 
+                 _holder.transform.localScale.z);*/
+            StartCoroutine(_holder.Rotation(horizontal ? "FH" : "FV"));
             BlockChange?.Invoke();
         }
     }

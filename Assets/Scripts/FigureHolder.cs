@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class FigureHolder : MonoBehaviour
 {
     [SerializeField] private FigureInfo _figure;
+
+    [SerializeField] public Transform _animation;
+    private Animator _anim;
 
     private Vector3 _scaleFigure;
     private float _trueScale;
@@ -16,6 +21,7 @@ public class FigureHolder : MonoBehaviour
     // Start is called before the first frame update
     public void Initialize(float trueScale)
     {
+        _anim = GetComponent<Animator>();
         LevelStats.Merged += ChangeFigure;
         _scaleFigure = transform.localScale;
         _trueScale = trueScale;
@@ -55,14 +61,63 @@ public class FigureHolder : MonoBehaviour
 
     public void ClearFigure()
     {
-        while (transform.childCount > 0)
+        while (transform.childCount > 1)
         {
-            DestroyImmediate(transform.GetChild(0).gameObject);
+            DestroyImmediate(transform.GetChild(1).gameObject);
         }
     }
 
     private void OnDestroy()
     {
         LevelStats.Merged -= ChangeFigure;
+    }
+
+    public  IEnumerator Rotation(string triggerName)
+    {
+        _animation.rotation = Quaternion.identity;
+        var children = transform.GetComponentsInChildren<Transform>();
+        foreach (var child in children)
+        {
+            if (child != _animation)
+            {
+                child.parent = _animation;
+            }
+        }
+
+        _anim.SetTrigger(triggerName);
+        yield return new WaitForEndOfFrame();
+        var length = _anim.GetCurrentAnimatorStateInfo(0).length;
+
+        float progress = 0;
+
+        while (progress < length)
+        {
+            progress += Time.deltaTime;
+            ChangeRotationElements();
+            yield return new WaitForEndOfFrame();
+        }
+        yield return new WaitForEndOfFrame();
+        children = _animation.transform.GetComponentsInChildren<Transform>();
+        foreach (var child in children)
+        {
+            if (child != _animation)
+            {
+                child.parent = transform;
+            }
+        }
+        _animation.rotation=Quaternion.identity;
+        yield return new WaitForEndOfFrame();
+        LevelStats.gameActiveBlock.Remove("Manipulate");
+
+    }
+
+    private void ChangeRotationElements()
+    {
+        Vector3 rot= -_animation.localEulerAngles;
+         //rot = new Vector3(rot.x, 0, rot.z);
+        foreach (var child in _animation.transform.GetComponentsInChildren<Transform>())
+        {
+            child.localEulerAngles = rot;
+        }
     }
 }
