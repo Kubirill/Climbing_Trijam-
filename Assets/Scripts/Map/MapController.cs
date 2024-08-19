@@ -42,18 +42,18 @@ public class MapController : MonoBehaviour
         _hand = hand;
         _map= new Map(_gridSize);
         _hand.BlockChange +=RefreshPick;
-        CreateMap();
-        LevelStats.MergeStart += MergeMap;
+        StartCoroutine(CreateMap());
+        //LevelStats.MergeStart += MergeMap;
     }
 
     [ContextMenu("GenerateMap")]
     public void GenerateMap()
     {
         _map = new Map(_gridSize);
-        CreateMap();
+        StartCoroutine( CreateMap());
 
     }
-    public void CreateMap()
+    public IEnumerator CreateMap()
     {
         _offset = -((_map.GetSize() - Vector2.one)/* *LevelStats.sizeBlock*/ / 2f);
         while (transform.childCount > 0)
@@ -89,6 +89,7 @@ public class MapController : MonoBehaviour
               
             }
         }
+        yield return new WaitForEndOfFrame();
     }
     private void CreateCell(int x, int y,Cell block)
     {
@@ -132,18 +133,18 @@ public class MapController : MonoBehaviour
 
     private void ClickOnBlockAsync(Vector2Int pos)
     {
-        if (!LevelStats.gameActive) return;
+        if (LevelStats.gameActiveBlock.Count>0) return;
 
-        LevelStats.gameActive = false;
+        LevelStats.gameActiveBlock.Add("Click");
         var figure = _hand.GetFigure();
         if (figure == null)
         {
-            LevelStats.gameActive = true;
+            LevelStats.gameActiveBlock.Remove("Click");
             return;
         }
         if (!_spaceExists)
         {
-            LevelStats.gameActive = true;
+            LevelStats.gameActiveBlock.Remove("Click");
             return;
         }
 
@@ -166,14 +167,14 @@ public class MapController : MonoBehaviour
             {
                 yield return LaunchDestroyAsync(lines, columns, pos);
                 
-                LevelStats.CheckNewLevel();
+                //LevelStats.CheckNewLevel();
                 yield return new WaitForSeconds(1);
             }
             _hand.ChangeFigure();
         }
         yield return new WaitForSeconds(0);
-        LevelStats.gameActive = true;
-       
+        LevelStats.gameActiveBlock.Remove("Click");
+
     }
 
     private IEnumerator LaunchDestroyAsync(List<int> lines, List<int> columns, Vector2Int pivot)
@@ -244,9 +245,18 @@ public class MapController : MonoBehaviour
 
     public void RefreshBlock(Vector2Int pos)
     {
-        int typeBlock=_map.GetBlock(pos.x, pos.y);
-        pos = MakeEmpty(pos);
-        if (typeBlock==-1)CheckEdge(pos);
+        try
+        {
+            int typeBlock = _map.GetBlock(pos.x, pos.y);
+            MakeEmpty(pos);
+            if (typeBlock == -1) CheckEdge(pos);
+        }
+        catch 
+        {
+            Debug.LogWarning("OutOfIndex");
+        }
+        
+        
         //DigClosesdBlock( pos);
     }
 
@@ -273,22 +283,29 @@ public class MapController : MonoBehaviour
 
     private void CheckClosedBlock(Vector2Int pos, int distance)
     {
-        if (_map.GetBlock(pos.x, pos.y) == -1)
+        try
         {
-            _tileMap[pos.x][pos.y].SetStepToDelete(distance);
-            _timer.destroyBlocks += _tileMap[pos.x][pos.y].DeleteBlock;
-            //pos = MakeEmpty(pos);
-            
+            if (_map.GetBlock(pos.x, pos.y) == -1)
+            {
+                _tileMap[pos.x][pos.y].SetStepToDelete(distance);
+                _timer.destroyBlocks += _tileMap[pos.x][pos.y].DeleteBlock;
+                //pos = MakeEmpty(pos);
+
+            }
+        }
+        catch
+        {
+            Debug.LogWarning("outOfLine");
         }
     }
     
-    private Vector2Int MakeEmpty(Vector2Int pos) //Destroy Block
+    private void MakeEmpty(Vector2Int pos) //Destroy Block
     {
         BlockDestroyed(_map.GetBlock(pos.x, pos.y));
         _map.SetBlock(pos, 0);
         _tileMap[pos.x][pos.y].GetComponent<SpriteRenderer>().sprite =
             _emptyBlock.GetComponent<SpriteRenderer>().sprite;
-        return pos;
+        
     }
 
 
@@ -363,15 +380,22 @@ public class MapController : MonoBehaviour
     }
 
     [ContextMenu ("Merge")]
-    public void MergeMap()
+    public IEnumerator MergeMap()
     {
-        LevelStats.Merge();
+        yield return new WaitForSeconds(1);
         _cellSize=LevelStats.sizeBlock;
         _map.MergeMap();
         _gridSize= _map.GetSize();
         _pickedSpases?.Clear();
-        CreateMap();
+        yield return CreateMap();
+        LevelStats.MergeCompleete();
     }
+    public void LaunchMerge()
+    {
+        LevelStats.LaunchMerge();
+        StartCoroutine(MergeMap());
+    }
+
     [ContextMenu ("levelUP")]
     public void LevelUp()
     {

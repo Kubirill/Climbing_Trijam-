@@ -40,7 +40,7 @@ public class ButtonForFigure : MonoBehaviour
     public event Action<FigureHolder> MouseDown;
     private void OnMouseDown()
     {
-        if (!LevelStats.gameActive) return;
+        if (LevelStats.gameActiveBlock.Count>0) return;
         MouseDown?.Invoke(_holder);
         
     }

@@ -2,17 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class DifficultyManager 
 {
     Difficulty _difficulty;
-    static int _currentBlock;
-    static int _levelUpBlock;
+    public static int _currentBlock;
+    public static int _levelUpBlock;
+    private MapController _map;
 
-    public DifficultyManager(Difficulty difficulty)
+    public DifficultyManager(Difficulty difficulty, MapController map)
     {
         _difficulty = difficulty;
+        _levelUpBlock = _difficulty.BlockForLevelUp3;
         MapController.BlockDestroyed += DestroyBlock;
+        MapController.NewLine += MergeCheck;
+        _map = map;
         //sign on BlockDestroy
     }
     private void DestroyBlock(int typeBlock)
@@ -50,5 +55,16 @@ public class DifficultyManager
                 break;
         }
         LevelUp?.Invoke();
+    }
+
+    private void MergeCheck(Vector2Int trash1, Vector2Int size)
+    {
+        if ((size.x > _difficulty.mapSizeForMerge.x)||(size.y > _difficulty.mapSizeForMerge.y))
+        {
+            _map.LaunchMerge();
+            _currentBlock = 0;
+            _levelUpBlock = _difficulty.BlockForLevelUp3;
+        }
+        
     }
 }

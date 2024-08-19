@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e28e3762c629f764799fd41f2d9b2b9f, type: 3}
   m_Name: Level
   m_EditorClassIdentifier: 
-  BlockForLevelUp3: 10
-  BlockForLevelUp4: 20
-  BlockForLevelUp5: 30
-  BlockForLevelUp6: 40
-  mapSizeForMerge: {x: 15, y: 15}
+  BlockForLevelUp3: 4
+  BlockForLevelUp4: 10
+  BlockForLevelUp5: 15
+  BlockForLevelUp6: 1000
+  mapSizeForMerge: {x: 13, y: 13}

@@ -10,6 +10,18 @@ public class Cell : MonoBehaviour
 {
     private Vector2Int _position;
     private int _stepToDelete;
+    private void Awake()
+    {
+        LevelStats.MergeStart += AnimationBeforeMerge;
+    }
+    private void OnDestroy()
+    {
+        LevelStats.MergeStart -= AnimationBeforeMerge;
+    }
+    private void AnimationBeforeMerge()
+    {
+        transform.DOShakeScale(1, 0.5f);
+    }
     public void SetPosition(Vector2Int pos)
     {
         _position = pos;

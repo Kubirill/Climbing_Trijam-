@@ -10,12 +10,14 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private CameraFollow _camera;
     [SerializeField] private DifficultyManager _difficultyManager;
     [SerializeField] Difficulty _difficulty;
+    [SerializeField] private LevelSliderController _levelSlider;
     private void Awake()
     {
         LevelStats.NewGame();
         _figureInHand.Initialize();
         _map.Initialize(_figureInHand);
         _camera.Initialize(_map);
-        _difficultyManager= new DifficultyManager(_difficulty);
+        _levelSlider.Initialize();
+        _difficultyManager = new DifficultyManager(_difficulty,_map);
     }
 }

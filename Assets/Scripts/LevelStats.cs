@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public static class LevelStats
     public static Vector2Int offsetForCells =Vector2Int.zero;
     public static int blockInFigure = 3;
     public static int sizeBlock = 2;
-    public static bool gameActive = true;
+    public static List<string> gameActiveBlock = new List<string>();
     public static int points = 0;
     public static int curLevel = 6;
     public static void NewGame()
@@ -17,17 +18,26 @@ public static class LevelStats
         sizeBlock = 2;
         offsetForCells =Vector2Int.zero;
         blockInFigure = 3;
-        gameActive = true;
+        gameActiveBlock = new List<string>(); 
     }
     public static event Action Merged;
     public static event Action MergeStart;
-    public static void Merge()
+    public static void MergeCompleete()
     {
+        Merged?.Invoke();
+        gameActiveBlock.Remove("Merge");
+    }
+    public static void  LaunchMerge()
+    {
+        gameActiveBlock.Add("Merge");
         offsetForCells = Vector2Int.zero;
         blockInFigure = 3;
         sizeBlock *= 2;
-        Merged?.Invoke();
+        MergeStart?.Invoke();
+        
     }
+
+
     public static void LevelUp()
     {
         blockInFigure++;
@@ -38,9 +48,5 @@ public static class LevelStats
         
 
     }
-    public static void CheckNewLevel()
-    {
-        
-        
-    }
+    
 }
