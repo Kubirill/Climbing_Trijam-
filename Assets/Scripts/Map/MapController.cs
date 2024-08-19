@@ -413,9 +413,10 @@ public class MapController : MonoBehaviour
     public IEnumerator MergeMap()
     {
         yield return new WaitForSeconds(2);
+        LevelStats.LaunchMerge();
         yield return CheckBlockBeforeMerge();
         yield return new WaitForSeconds(1);
-        LevelStats.LaunchMerge();
+        LevelStats.UpdateParam(); 
         _cellSize =LevelStats.sizeBlock;
         _map.MergeMap();
         _gridSize= _map.GetSize();

@@ -30,14 +30,18 @@ public static class LevelStats
     }
     public static void  LaunchMerge()
     {
+        MergeStart?.Invoke();
+        
+
+    }
+
+    public static void UpdateParam()
+    {
         gameActiveBlock.Add("Merge");
         offsetForCells = Vector2Int.zero;
         blockInFigure = 3;
         sizeBlock *= 2;
-        MergeStart?.Invoke();
-        
     }
-
 
     public static void LevelUp()
     {
