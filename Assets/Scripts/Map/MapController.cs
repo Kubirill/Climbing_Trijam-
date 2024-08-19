@@ -103,6 +103,7 @@ public class MapController : MonoBehaviour
         refCell.MouseDown += ClickOnBlockAsync;
         refCell.Refresh += RefreshBlock;
         refCell.MouseEnter += HoldOnBlock;
+        
     }
 
     

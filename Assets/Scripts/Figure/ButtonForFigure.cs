@@ -51,8 +51,7 @@ public class ButtonForFigure : MonoBehaviour
 
             _holder.transform.parent = transform.parent;
             _holder.transform.localPosition = Vector3.zero;
-            if (Mathf.Abs(localScaleFigure - 
-                _holder.transform.localScale.z) > 0.5f)
+            if (Mathf.Abs(localScaleFigure - _holder.transform.localScale.z) > 0.001f)
             {
                 float xSign = Mathf.Sign(_holder.transform.localScale.x);
                 float ySign = Mathf.Sign(_holder.transform.localScale.y);
@@ -67,7 +66,7 @@ public class ButtonForFigure : MonoBehaviour
         _holder.transform.parent = transform.parent;
         _holder.transform.localPosition = Vector3.zero;
         
-        if (Mathf.Abs(localScaleFigure - _holder.transform.localScale.z)>0.5f)
+        if (Mathf.Abs(localScaleFigure - _holder.transform.localScale.z)>0.001f)
         {
             float xSign = Mathf.Sign(_holder.transform.localScale.x);
             float ySign = Mathf.Sign(_holder.transform.localScale.y);
