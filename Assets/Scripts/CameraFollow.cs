@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
         if ((sizeMap.x < size.x * LevelStats.sizeBlock / 2) 
             || (sizeMap.y < size.y * LevelStats.sizeBlock / 2))
         {
-            _camera.orthographicSize = _camera.orthographicSize + LevelStats.sizeBlock / 2;
+            StartCoroutine( CameraRescale( _camera.orthographicSize + LevelStats.sizeBlock / 2));
             sizeMap += Vector2Int.one* LevelStats.sizeBlock / 2;
         }
         Vector3 dir = new Vector3(direction.x, direction.y, 0);
@@ -33,6 +33,17 @@ public class CameraFollow : MonoBehaviour
         {
             progress += Time.deltaTime*2;
             transform.position = Vector3.Lerp(startpoint, endpoint, progress);
+            yield return null;
+        }
+    }
+    private IEnumerator CameraRescale(float endpoint)
+    {
+        float startpoint = _camera.orthographicSize;
+        float progress = 0;
+        while (progress < 1)
+        {
+            progress += Time.deltaTime * 2;
+            _camera.orthographicSize = Mathf.Lerp(startpoint, endpoint, progress);
             yield return null;
         }
     }
