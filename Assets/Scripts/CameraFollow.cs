@@ -10,7 +10,7 @@ public class CameraFollow : MonoBehaviour
     {
         
         _camera = GetComponent<Camera>();
-        mapController.NewLine += Resize;
+        MapController.NewLine += Resize;
     }
     private void Resize(Vector2Int direction, Vector2Int size)
     {

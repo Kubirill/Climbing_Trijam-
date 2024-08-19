@@ -7,29 +7,52 @@ using UnityEngine;
 
 public class MapController : MonoBehaviour
 {
-    [SerializeField] private Vector2Int _gridSize;
-    [SerializeField] private float _cellSize;
-    [SerializeField] private Vector2 _offset;
-    [SerializeField] private Transform _parent;
-    [SerializeField] private FigureInHand _hand;
-    [SerializeField] private Timer _timer;
     private List<List<Cell>> _tileMap = new List<List<Cell>>();
     private Map _map;
+
+    
+    private Vector2 _offset;
+    private FigureInHand _hand;
+
+    List<Vector2Int> _pickedSpases;
+    bool _spaceExists;
+    Vector2Int _lastBlovck;
+
+    [SerializeField] private Vector2Int _gridSize;
+    [SerializeField] private float _cellSize;
+    [SerializeField] private Transform _parent;
+    [SerializeField] private Timer _timer;
+
+    [Header("Block ref")]
 
     [SerializeField] private Cell _emptyBlock;
     [SerializeField] private Cell _closedBlock;
     [SerializeField] private Sprite _block;
 
-    [ContextMenu("GenerateMap")]
-    public void Initialize()
+
+
+    public static event Action<Vector2Int, Vector2Int> NewLine;//1 - Direction for new line from center
+                                                               //2 - Size map
+    public static event Action<int> BlockDestroyed;
+
+
+    
+    public void Initialize(FigureInHand hand)
     {
+        _hand = hand;
         _map= new Map(_gridSize);
         _hand.BlockChange +=RefreshPick;
         CreateMap();
         LevelStats.MergeStart += MergeMap;
     }
-    
-  
+
+    [ContextMenu("GenerateMap")]
+    public void GenerateMap()
+    {
+        _map = new Map(_gridSize);
+        CreateMap();
+
+    }
     public void CreateMap()
     {
         _offset = -((_map.GetSize() - Vector2.one)/* *LevelStats.sizeBlock*/ / 2f);
@@ -81,9 +104,7 @@ public class MapController : MonoBehaviour
         refCell.MouseEnter += HoldOnBlock;
     }
 
-    List<Vector2Int> _pickedSpases;
-    bool _spaceExists;
-    Vector2Int _lastBlovck ;
+    
     private void HoldOnBlock(Vector2Int pos)
     {
         _lastBlovck = pos;
@@ -146,7 +167,7 @@ public class MapController : MonoBehaviour
                 yield return LaunchDestroyAsync(lines, columns, pos);
                 
                 LevelStats.CheckNewLevel();
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(1);
             }
             _hand.ChangeFigure();
         }
@@ -260,18 +281,16 @@ public class MapController : MonoBehaviour
             
         }
     }
-
-    private Vector2Int MakeEmpty(Vector2Int pos)
+    
+    private Vector2Int MakeEmpty(Vector2Int pos) //Destroy Block
     {
+        BlockDestroyed(_map.GetBlock(pos.x, pos.y));
         _map.SetBlock(pos, 0);
         _tileMap[pos.x][pos.y].GetComponent<SpriteRenderer>().sprite =
             _emptyBlock.GetComponent<SpriteRenderer>().sprite;
         return pos;
     }
 
-
-    public event Action<Vector2Int, Vector2Int> NewLine;//1 - Direction for new line from center
-                                                        //2 - Size map
 
 
     private void CheckEdge(Vector2Int pos)

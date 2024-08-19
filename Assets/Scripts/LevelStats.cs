@@ -40,16 +40,7 @@ public static class LevelStats
     }
     public static void CheckNewLevel()
     {
-        if (points > curLevel)
-        {
-            blockInFigure++;
-            if (blockInFigure > 7)
-            {
-                MergeStart?.Invoke();
-            }
-            curLevel = points + 4 * blockInFigure;
-
-        }
+        
         
     }
 }

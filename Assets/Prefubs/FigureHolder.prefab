@@ -41,12 +41,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1964280341545815221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 827cb12be4624884caa49ce64ed9f0f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 002432784c170d2489ae53c54bd4b381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _figure:
     _figureSize: {x: 0, y: 0}
-    _offset: {x: 0, y: 0}
-    _blockType: {fileID: 0}
+    _pivot: {x: 0, y: 0}
+    _blockType: {fileID: 4143985475455870498, guid: a710856f8cb364c42a500d282e66e0a9, type: 3}
   _blockType: {fileID: 4143985475455870498, guid: a710856f8cb364c42a500d282e66e0a9, type: 3}
   _cellSize: 2
