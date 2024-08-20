@@ -31,8 +31,15 @@ public class Cell : MonoBehaviour
     }
     public void SetStepToDelete(int step)
     {
-        transform.DOShakePosition(1,0.1f);
+        pos = transform.position;
+        transform.DOShakePosition(1,0.2f);
         _stepToDelete = step;
+        Invoke("returnposition", 1);
+    }
+     Vector3 pos;
+    void returnposition()
+    {
+        transform.position = pos;
     }
 
     public event Action<Vector2Int> MouseEnter;
