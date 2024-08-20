@@ -23,6 +23,7 @@ public class DifficultyManager
     }
     private void DestroyBlock(int typeBlock)
     {
+        if (_levelUpBlock == _difficulty.BlockForLevelUp6) return;
         if (typeBlock > 0) 
         {
             _currentBlock++;
@@ -50,6 +51,7 @@ public class DifficultyManager
                 break;
             case 6:
                 _levelUpBlock = _difficulty.BlockForLevelUp6;
+                _currentBlock = _levelUpBlock;
                 break;
             default:
                 _levelUpBlock = _difficulty.BlockForLevelUp3;
@@ -66,7 +68,7 @@ public class DifficultyManager
             _map.LaunchMerge();
             _watcher.Merge();
             _currentBlock = 0;
-            _levelUpBlock = _difficulty.BlockForLevelUp3;
+            _levelUpBlock = _difficulty.BlockForLevelUp4;
         }
         
     }
