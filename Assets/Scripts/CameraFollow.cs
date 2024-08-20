@@ -6,16 +6,27 @@ public class CameraFollow : MonoBehaviour
 {
     private Camera _camera;
     [SerializeField] private Vector2Int sizeMap;
+    float originalSIze;
+    Vector3 originalPos;
     public void Initialize(MapController mapController)
     {
         
         _camera = GetComponent<Camera>();
+        originalSIze = _camera.orthographicSize;
+        originalPos=transform.position;
         MapController.NewLine += Resize;
+        LevelStats.Merged+= ReturnToOrigin;
     }
 
     private void OnDestroy()
     {
         MapController.NewLine -= Resize;
+        LevelStats.Merged -= ReturnToOrigin;
+    }
+    void ReturnToOrigin(Vector2Int trash)
+    {
+        StartCoroutine(CameraMove(originalPos));
+        StartCoroutine(CameraRescale(originalSIze));
     }
     private void Resize(Vector2Int direction, Vector2Int size)
     {
