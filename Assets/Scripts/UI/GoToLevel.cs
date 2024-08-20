@@ -7,6 +7,7 @@ public class GoToLevel : MonoBehaviour
 {
     public void Press(string name)
     {
+        Pause._paused = false;
         SceneManager.LoadScene(name);
     }
 }

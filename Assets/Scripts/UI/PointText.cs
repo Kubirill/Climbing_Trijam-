@@ -9,6 +9,7 @@ public class PointText : MonoBehaviour
 
     [SerializeField] TMP_Text _points;
     [SerializeField] TMP_Text _record;
+    [SerializeField] AudioClip _counter;
 
     public void Initialize()
     {
@@ -28,6 +29,7 @@ public class PointText : MonoBehaviour
     {
         int startpoint = int.Parse(_points.text);
         float progress = 0;
+        SoundManager.LaunchSound(_counter);
         while (progress < 1)
         {
             progress += Time.deltaTime * 1;

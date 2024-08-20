@@ -410,6 +410,8 @@ public class MapController : MonoBehaviour
         _gridSize.y++;
     }
 
+    [SerializeField] AudioClip _cow;
+
     [ContextMenu ("Merge")]
     public IEnumerator MergeMap()
     {
@@ -417,6 +419,8 @@ public class MapController : MonoBehaviour
         LevelStats.LaunchMerge();
         _mergeHelper.StartMerge(_tileMap[0][0].transform.position, _gridSize);
         yield return CheckBlockBeforeMerge();
+
+        SoundManager.LaunchSound(_cow);
         yield return _mergeHelper.CameraRescale();
         yield return new WaitForSeconds(1);
         LevelStats.UpdateParam(); 

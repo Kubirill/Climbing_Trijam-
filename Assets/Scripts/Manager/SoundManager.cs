@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static GameIcons;
 
 public class SoundManager : MonoBehaviour
@@ -13,11 +14,17 @@ public class SoundManager : MonoBehaviour
     {
         Launch = null;
         Launch += PlaySound;
+        LaunchOwn += PlaySound;
     }
     public static event Action<SoundType> Launch;
+    public static event Action<AudioClip> LaunchOwn;
     public static void LaunchSound(SoundType soundType)
     {
         Launch?.Invoke(soundType);
+    }
+    public static void LaunchSound(AudioClip soundType)
+    {
+        LaunchOwn?.Invoke(soundType);
     }
     private void OnDestroy()
     {
@@ -31,6 +38,14 @@ public class SoundManager : MonoBehaviour
         soundObject.clip = clip;
         soundObject.Play();
          soundObject.GetComponent<DestroyAudioSorce>().LaunchDestroy(clip.length);
+
+    }
+    public void PlaySound(AudioClip soundType)
+    {
+        AudioSource soundObject = Instantiate(_source);
+        soundObject.clip = soundType;
+        soundObject.Play();
+        soundObject.GetComponent<DestroyAudioSorce>().LaunchDestroy(soundType.length);
 
     }
 }

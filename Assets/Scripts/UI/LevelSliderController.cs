@@ -9,7 +9,7 @@ public class LevelSliderController : MonoBehaviour
 {
     [SerializeField] Slider _slider;
     [SerializeField] TMP_Text _level;
-
+    [SerializeField] AudioClip _liquid;
     public void Initialize()
     {
         Timer.TimerStop += UpdateSlider;
@@ -41,6 +41,7 @@ public class LevelSliderController : MonoBehaviour
             targetSlide = 1;
         }
         float progress = 0;
+        if ((_liquid!=null)&& (LevelStats.blockInFigure == 6)) SoundManager.LaunchSound(_liquid);
         while (progress < 1)
         {
             progress += Time.deltaTime * 1;
@@ -53,6 +54,7 @@ public class LevelSliderController : MonoBehaviour
             SoundManager.LaunchSound(SoundType._levelUp);
             _level.text = LevelStats.blockInFigure.ToString();
             progress = 0;
+            if (_liquid != null) SoundManager.LaunchSound(_liquid);
             while (progress < 1)
             {
                 progress += Time.deltaTime * 1;
