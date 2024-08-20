@@ -10,13 +10,14 @@ public class DifficultyManager
     public static int _currentBlock;
     public static int _levelUpBlock;
     private MapController _map;
-
-    public DifficultyManager(Difficulty difficulty, MapController map)
+    private MergeWatcher _watcher;
+    public DifficultyManager(Difficulty difficulty, MapController map, MergeWatcher mergeWatcher)
     {
         _difficulty = difficulty;
         _levelUpBlock = _difficulty.BlockForLevelUp3;
         MapController.BlockDestroyed += DestroyBlock;
         MapController.NewLine += MergeCheck;
+        _watcher = mergeWatcher;
         _map = map;
         //sign on BlockDestroy
     }
@@ -59,9 +60,11 @@ public class DifficultyManager
 
     private void MergeCheck(Vector2Int trash1, Vector2Int size)
     {
+        _watcher.Resize(size, _difficulty.mapSizeForMerge);
         if ((size.x > _difficulty.mapSizeForMerge.x)||(size.y > _difficulty.mapSizeForMerge.y))
         {
             _map.LaunchMerge();
+            _watcher.Merge();
             _currentBlock = 0;
             _levelUpBlock = _difficulty.BlockForLevelUp3;
         }

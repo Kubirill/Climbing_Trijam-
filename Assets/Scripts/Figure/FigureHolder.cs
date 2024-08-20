@@ -48,7 +48,7 @@ public class FigureHolder : MonoBehaviour
         }
         
     }
-    public void ChangeFigure()
+    public void ChangeFigure(Vector2Int size)
     {
         ClearFigure();
         //transform.localScale = _scaleFigure;

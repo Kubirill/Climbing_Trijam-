@@ -94,6 +94,6 @@ public class ButtonForFigure : MonoBehaviour
         }
         UpdateScale();
         _holder.UpdateScale(ScaleFigure);
-        if (holder == _holder) _holder.ChangeFigure();
+        if (holder == _holder) _holder.ChangeFigure(Vector2Int.zero);
     }
 }

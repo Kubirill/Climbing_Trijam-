@@ -21,11 +21,11 @@ public static class LevelStats
         blockInFigure = 3;
         gameActiveBlock = new List<string>(); 
     }
-    public static event Action Merged;
+    public static event Action<Vector2Int> Merged;
     public static event Action MergeStart;
-    public static void MergeCompleete()
+    public static void MergeCompleete(Vector2Int size)
     {
-        Merged?.Invoke();
+        Merged?.Invoke(size);
         gameActiveBlock.Remove("Merge");
     }
     public static void  LaunchMerge()

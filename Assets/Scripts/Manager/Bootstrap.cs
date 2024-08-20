@@ -13,6 +13,7 @@ public class Bootstrap : MonoBehaviour
     [SerializeField] private LevelSliderController _levelSlider;
     [SerializeField] private PointText _pointText;
     [SerializeField] private SoundManager _soundManager;
+    [SerializeField] private MergeWatcher _mergeWatcher;
 
     private DifficultyManager _difficultyManager;
     private PointsManager _pointsManager;
@@ -23,7 +24,7 @@ public class Bootstrap : MonoBehaviour
         _map.Initialize(_figureInHand);
         _camera.Initialize(_map);
         _levelSlider.Initialize();
-        _difficultyManager = new DifficultyManager(_difficulty,_map);
+        _difficultyManager = new DifficultyManager(_difficulty,_map, _mergeWatcher);
         _pointsManager = new PointsManager(_costPoints);
         _pointText.Initialize();
         _soundManager.Initialize();
