@@ -250,11 +250,13 @@ public class Map
     {
         List<int> ambars = new List<int>();
         int count = 20 - LevelStats.mergeCount * 4;
+        count = Mathf.Max(count, 0);
+
         if (count < _map[1].Count)
         {
             while (count < _map[1].Count)
             {
-                ambars.Add(Random.Range(0, _map[1].Count+2));
+                ambars.Add(Random.Range(0, _map[1].Count+4));
                 count = count + 5;
             }
         }
@@ -283,11 +285,12 @@ public class Map
     {
         List<int> ambars = new List<int>();
         int count = 20 - LevelStats.mergeCount * 4;
+        count=Mathf.Max(count, 0);
         if (count < _map[1].Count)
         {
             while (count < _map[1].Count)
             {
-                ambars.Add(Random.Range(0, _map[1].Count+2));
+                ambars.Add(Random.Range(0, _map[1].Count+4));
                 count = count + 5;
             }
         }

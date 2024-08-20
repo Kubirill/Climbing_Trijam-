@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class LevelSliderController : MonoBehaviour
+public class LevelSliderController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] Slider _slider;
     [SerializeField] TMP_Text _level;
     [SerializeField] AudioClip _liquid;
+    [SerializeField] List<Image> _sprites;
     public void Initialize()
     {
         Timer.TimerStop += UpdateSlider;
@@ -70,5 +72,25 @@ public class LevelSliderController : MonoBehaviour
             SoundManager.LaunchSound(SoundType._levelUp);
         }
         
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ChsngeOpscity(0.3f);
+
+    }
+
+    private void ChsngeOpscity(float opacity)
+    {
+        foreach (var sprite in _sprites)
+        {
+            sprite.color = new Color(1, 1, 1, opacity);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ChsngeOpscity(1);
+
     }
 }
