@@ -24,7 +24,13 @@ namespace Assets.Scripts
                 button.MouseDown += ButtonClicked;
             }
         }
-
+        private void OnDestroy()
+        {
+            foreach (var button in _buttons)
+            {
+                button.MouseDown -= ButtonClicked;
+            }
+        }
         private void ButtonClicked(FigureHolder holder)
         {
             SoundManager.LaunchSound(SoundType._buttonPress);

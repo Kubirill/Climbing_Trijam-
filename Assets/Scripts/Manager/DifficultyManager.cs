@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -21,6 +22,13 @@ public class DifficultyManager
         _map = map;
         //sign on BlockDestroy
     }
+    
+    public void Destroy()
+    {
+        MapController.BlockDestroyed -= DestroyBlock;
+        MapController.NewLine -= MergeCheck;
+    }
+
     private void DestroyBlock(int typeBlock)
     {
         if (_levelUpBlock == _difficulty.BlockForLevelUp6) return;

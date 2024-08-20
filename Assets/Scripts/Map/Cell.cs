@@ -30,7 +30,6 @@ public class Cell : MonoBehaviour
     }
     public void SetStepToDelete(int step)
     {
-        LevelStats.AddPoints(1);
         transform.DOShakePosition(1,0.1f);
         _stepToDelete = step;
     }

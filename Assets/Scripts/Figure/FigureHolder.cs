@@ -24,6 +24,10 @@ public class FigureHolder : MonoBehaviour
         _trueScale = trueScale;
         CreateFigure();
     }
+    private void OnDestroy()
+    {
+        LevelStats.Merged -= ChangeFigure;
+    }
     public void UpdateScale(float trueScale)
     {
         _trueScale = trueScale;
@@ -64,10 +68,7 @@ public class FigureHolder : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        LevelStats.Merged -= ChangeFigure;
-    }
+
 
     public  IEnumerator Rotation(string triggerName)
     {

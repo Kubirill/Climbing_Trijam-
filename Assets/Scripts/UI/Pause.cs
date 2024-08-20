@@ -5,9 +5,11 @@ using UnityEngine;
 public class Pause : MonoBehaviour
 {
     [SerializeField] GameObject _canvas;
-    static bool _paused = false;
+    public static bool _paused = false;
+   
     public void Press(bool nextState)
     {
+        Debug.Log("press "+_paused);
         if (_paused== nextState) return;
         _paused = nextState;
         _canvas.SetActive(nextState);

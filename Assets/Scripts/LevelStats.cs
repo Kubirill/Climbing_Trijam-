@@ -47,11 +47,5 @@ public static class LevelStats
     {
         blockInFigure++;
     }
-    public static void AddPoints(int point)
-    {
-        points=points+point* sizeBlock/2;
-        
-
-    }
     
 }

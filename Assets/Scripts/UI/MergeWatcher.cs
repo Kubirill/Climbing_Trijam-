@@ -17,6 +17,11 @@ public class MergeWatcher : MonoBehaviour
     {
         LevelStats.Merged += FinishMerge;
     }
+    private void OnDestroy()
+    {
+        LevelStats.Merged -= FinishMerge;
+
+    }
     public void Resize(Vector2Int current, Vector2Int max)
     {
         maxSize = max;

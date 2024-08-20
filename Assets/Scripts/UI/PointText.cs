@@ -8,10 +8,16 @@ public class PointText : MonoBehaviour
 {
 
     [SerializeField] TMP_Text _points;
+    [SerializeField] TMP_Text _record;
 
     public void Initialize()
     {
         Timer.TimerStop += UpdateText;
+        _record.text = PointsManager._record.ToString();
+    }
+    private void OnDestroy()
+    {
+        Timer.TimerStop -= UpdateText;  
     }
     private void UpdateText()
     {
@@ -30,5 +36,9 @@ public class PointText : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         _points.text = PointsManager._points.ToString();
+        if (PointsManager._points> PointsManager._record)
+        {
+            _record.text = "New Record!";
+        }
     }
 }

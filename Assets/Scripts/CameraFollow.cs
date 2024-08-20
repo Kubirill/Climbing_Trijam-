@@ -12,6 +12,11 @@ public class CameraFollow : MonoBehaviour
         _camera = GetComponent<Camera>();
         MapController.NewLine += Resize;
     }
+
+    private void OnDestroy()
+    {
+        MapController.NewLine -= Resize;
+    }
     private void Resize(Vector2Int direction, Vector2Int size)
     {
         if ((sizeMap.x < size.x * LevelStats.sizeBlock / 2) 

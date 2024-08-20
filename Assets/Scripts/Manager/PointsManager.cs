@@ -7,13 +7,20 @@ public class PointsManager
 {
     static CostPoints _costPoints;
     public static int _points = 0;
+
+    public static int _record = 0;
     public static int _lines = 0;
     public PointsManager(CostPoints costPoints)
     {
+
+       if (PlayerPrefs.HasKey("Record")) _record = PlayerPrefs.GetInt("Record");
         _costPoints = costPoints;
        MapController.BlockDestroyed += DestroyBlock;
     }
-
+    public void Destroy()
+    {
+        MapController.BlockDestroyed -= DestroyBlock;
+    }
     private void DestroyBlock(int typeBlock)
     {
         if (_costPoints.isSimpleScore&&( typeBlock > 0))
@@ -25,6 +32,10 @@ public class PointsManager
         {
             _points += _costPoints.pointsForClosedBlock * _lines;
 
+        }
+        if (_points > _record)
+        {
+            PlayerPrefs.SetInt("Record", _points);
         }
     }
     public static int GetCurrentBlockCost()

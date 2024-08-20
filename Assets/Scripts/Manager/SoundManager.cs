@@ -19,7 +19,11 @@ public class SoundManager : MonoBehaviour
     {
         Launch?.Invoke(soundType);
     }
+    private void OnDestroy()
+    {
 
+        Launch -= PlaySound;
+    }
     public void  PlaySound(SoundType soundType)
     {
         var clip = _sounds.GetClip(soundType);

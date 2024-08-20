@@ -15,7 +15,11 @@ public class LevelSliderController : MonoBehaviour
         Timer.TimerStop += UpdateSlider;
         LevelStats.Merged += UpdateSlider;
     }
-
+    private void OnDestroy()
+    {
+        Timer.TimerStop -= UpdateSlider;
+        LevelStats.Merged -= UpdateSlider;
+    }
     private void UpdateSlider(Vector2Int @int)
     {
         UpdateSlider();

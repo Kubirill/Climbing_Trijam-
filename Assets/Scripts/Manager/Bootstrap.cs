@@ -29,4 +29,9 @@ public class Bootstrap : MonoBehaviour
         _pointText.Initialize();
         _soundManager.Initialize();
     }
+    private void OnDestroy()
+    {
+        _difficultyManager.Destroy();
+        _pointsManager.Destroy();
+    }
 }
