@@ -17,7 +17,7 @@ public static class LevelStats
     public static GameIcons _icons;
     public static void NewGame()
     {
-        mergeCount = 0;
+        mergeCount = 5;
         sizeBlock = 2;
         offsetForCells =Vector2Int.zero;
         blockInFigure = 3;
