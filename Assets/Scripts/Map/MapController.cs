@@ -348,7 +348,7 @@ public class MapController : MonoBehaviour
             AddColumn(true);
             NewLine?.Invoke(new Vector2Int(1,0),_gridSize);
         }
-        if (pos.x == 1)
+        if (pos.x == 0)
         {
             AddColumn(false);
             NewLine?.Invoke(new Vector2Int(-1, 0), _gridSize);
@@ -358,7 +358,7 @@ public class MapController : MonoBehaviour
             AddRow(true);
             NewLine?.Invoke(new Vector2Int(0, 1), _gridSize);
         }
-        if (pos.y == 1)
+        if (pos.y == 0)
         {
             AddRow(false);
             NewLine?.Invoke(new Vector2Int(0, -1), _gridSize);

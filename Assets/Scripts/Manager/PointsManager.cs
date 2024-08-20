@@ -19,6 +19,7 @@ public class PointsManager
     }
     public void Destroy()
     {
+        _points = 0;
         MapController.BlockDestroyed -= DestroyBlock;
     }
     private void DestroyBlock(int typeBlock)
