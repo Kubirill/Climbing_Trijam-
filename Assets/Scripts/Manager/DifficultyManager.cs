@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class DifficultyManager 
 {
-    Difficulty _difficulty;
+    static Difficulty _difficulty;
     public static int _currentBlock;
     public static int _levelUpBlock;
     private MapController _map;
@@ -67,9 +67,12 @@ public class DifficultyManager
         {
             _map.LaunchMerge();
             _watcher.Merge();
-            _currentBlock = 0;
-            _levelUpBlock = _difficulty.BlockForLevelUp4;
         }
         
+    }
+    public static void UpdateDifficulty()
+    {
+        _currentBlock = 0;
+        _levelUpBlock = _difficulty.BlockForLevelUp4;
     }
 }

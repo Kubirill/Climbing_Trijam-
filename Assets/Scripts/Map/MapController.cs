@@ -422,6 +422,7 @@ public class MapController : MonoBehaviour
         _gridSize= _map.GetSize();
         _pickedSpases?.Clear();
         yield return CreateMap();
+        DifficultyManager.UpdateDifficulty();
         LevelStats.MergeCompleete(_gridSize);
         LevelStats.gameActiveBlock.Remove("Merge");
     }
