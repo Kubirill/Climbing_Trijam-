@@ -22,6 +22,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private float _cellSize;
     [SerializeField] private Transform _parent;
     [SerializeField] private Timer _timer;
+    [SerializeField] MergeHelper _mergeHelper;
 
     [Header("Block ref")]
 
@@ -57,7 +58,7 @@ public class MapController : MonoBehaviour
     }
     public IEnumerator CreateMap()
     {
-        _offset = -((_map.GetSize() - Vector2.one)/* *LevelStats.sizeBlock*/ / 2f);
+        _offset = -((_map.GetSize() - Vector2.one)/ 2f);
         while (_parent.transform.childCount > 0)
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
@@ -412,9 +413,11 @@ public class MapController : MonoBehaviour
     [ContextMenu ("Merge")]
     public IEnumerator MergeMap()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         LevelStats.LaunchMerge();
+        _mergeHelper.StartMerge(_tileMap[0][0].transform.position, _gridSize);
         yield return CheckBlockBeforeMerge();
+        yield return _mergeHelper.CameraRescale();
         yield return new WaitForSeconds(1);
         LevelStats.UpdateParam(); 
         _cellSize =LevelStats.sizeBlock;
@@ -422,6 +425,8 @@ public class MapController : MonoBehaviour
         _gridSize= _map.GetSize();
         _pickedSpases?.Clear();
         yield return CreateMap();
+        yield return new WaitForSeconds(1);
+        _mergeHelper.Destrouer();
         DifficultyManager.UpdateDifficulty();
         LevelStats.MergeCompleete(_gridSize);
         LevelStats.gameActiveBlock.Remove("Merge");
@@ -446,6 +451,7 @@ public class MapController : MonoBehaviour
         {
             for (int y = 0; y < _gridSize.y; y++)
             {
+                _tileMap[x][y].transform.parent =_mergeHelper.transform;
                 if (_map.GetBlock(x, y) == 1)
                 {
                     _tileMap[x][y].MergeDestroy();

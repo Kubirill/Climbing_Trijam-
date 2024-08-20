@@ -40,7 +40,7 @@ public static class LevelStats
         gameActiveBlock.Add("Merge");
         offsetForCells = Vector2Int.zero;
         blockInFigure = 4;
-        sizeBlock *= 2;
+        //sizeBlock *= 2;
     }
 
     public static void LevelUp()

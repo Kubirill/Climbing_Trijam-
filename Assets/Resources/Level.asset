@@ -16,4 +16,4 @@ MonoBehaviour:
   BlockForLevelUp4: 10
   BlockForLevelUp5: 15
   BlockForLevelUp6: 1000
-  mapSizeForMerge: {x: 13, y: 13}
+  mapSizeForMerge: {x: 9, y: 9}
