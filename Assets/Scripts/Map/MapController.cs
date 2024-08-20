@@ -94,6 +94,7 @@ public class MapController : MonoBehaviour
         }
         yield return new WaitForEndOfFrame();
     }
+    [SerializeField] Sprite _ambar;
     private void CreateCell(int x, int y,Cell block)
     {
         Vector2 position;
@@ -107,6 +108,10 @@ public class MapController : MonoBehaviour
         refCell.Refresh += RefreshBlock;
         refCell.MouseEnter += HoldOnBlock;
         refCell.MouseExit += ExitFromBlock;
+        if (_map.GetBlock(x, y) == -2)
+        {
+            refCell.GetComponent<SpriteRenderer>().sprite = _ambar;
+        }
         
     }
 
@@ -208,7 +213,7 @@ public class MapController : MonoBehaviour
             {
                 int distance = Mathf.Abs(x - pivot.x) + Mathf.Abs(lines[i] - pivot.y) + 2;
                 
-                if (_map.GetBlock(x,lines[i]) != -1)
+                if (_map.GetBlock(x,lines[i]) > -1)
                 {
                     
                     if (distance > maxDistance)
@@ -229,7 +234,7 @@ public class MapController : MonoBehaviour
             {
                 int distance = Mathf.Abs(columns[i] - pivot.x) + Mathf.Abs(y - pivot.y) + 2;
                
-                if (_map.GetBlock(columns[i],y) != -1)
+                if (_map.GetBlock(columns[i],y) > -1)
                 {
                     
                     if (distance > maxDistance)

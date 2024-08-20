@@ -13,9 +13,11 @@ public static class LevelStats
     public static List<string> gameActiveBlock = new List<string>();
     public static int points = 0;
     public static int curLevel = 6;
+    public static int mergeCount=0;
     public static GameIcons _icons;
     public static void NewGame()
     {
+        mergeCount = 0;
         sizeBlock = 2;
         offsetForCells =Vector2Int.zero;
         blockInFigure = 3;
@@ -27,6 +29,7 @@ public static class LevelStats
     {
         Merged?.Invoke(size);
         gameActiveBlock.Remove("Merge");
+        mergeCount++;
     }
     public static void  LaunchMerge()
     {

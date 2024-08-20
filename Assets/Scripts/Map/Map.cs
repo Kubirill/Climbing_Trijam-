@@ -248,12 +248,24 @@ public class Map
 
     public void AddColumn(bool inRight)
     {
+        List<int> ambars = new List<int>();
+        int count = 20 - LevelStats.mergeCount * 4;
+        if (count < _map[1].Count)
+        {
+            while (count < _map[1].Count)
+            {
+                ambars.Add(Random.Range(0, _map[1].Count+2));
+                count = count + 5;
+            }
+        }
+
         if (inRight)
         {
             _map.Add(new List<int>());
             for (int y = 0; y < _map[1].Count; y++)
             {
-                _map[_map.Count - 1].Add(-1);
+                if (ambars.Contains(y)) _map[_map.Count - 1].Add(-2);
+                else _map[_map.Count - 1].Add(-1);
             }
         }
         else
@@ -261,22 +273,35 @@ public class Map
             _map.Insert(0,new List<int>());
             for (int y = 0; y < _map[1].Count; y++)
             {
-                _map[0].Add(-1);
+                if (ambars.Contains(y)) _map[0].Add(-2);
+                else _map[0].Add(-1);
             }
         }
     }
 
     public void AddRow(bool abow)
     {
-       for (int x =0; x < _map.Count; x++)
+        List<int> ambars = new List<int>();
+        int count = 20 - LevelStats.mergeCount * 4;
+        if (count < _map[1].Count)
+        {
+            while (count < _map[1].Count)
+            {
+                ambars.Add(Random.Range(0, _map[1].Count+2));
+                count = count + 5;
+            }
+        }
+        for (int x =0; x < _map.Count; x++)
         {
             if (abow)
             {
-                _map[x].Add(-1);
+                if (ambars.Contains(x)) _map[x].Add(-2);
+                else _map[x].Add(-1);
             }
             else
             {
-                _map[x].Insert(0,-1);
+                if (ambars.Contains(x)) _map[x].Insert(0, -2);
+                else _map[x].Insert(0,-1);
             }
         }
         

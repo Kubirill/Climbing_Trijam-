@@ -4442,6 +4442,7 @@ MonoBehaviour:
   _icons: {fileID: 11400000, guid: b8e2a4164cf0c824a8e75cf0485f90d9, type: 2}
   _emptyBlock: {fileID: 766542812902815310, guid: 6f8637800c8d3704f9a28cf2ffc95954, type: 3}
   _closedBlock: {fileID: 5976407311838072336, guid: 408becac97128dc4cbe9045ee35bc7ba, type: 3}
+  _ambar: {fileID: 21300000, guid: da902864d59c9b84896621287d0cba08, type: 3}
   _cow: {fileID: 8300000, guid: c37d893bbfe9feb4f9e3fe32118ade88, type: 3}
 --- !u!4 &1074331454
 Transform:
