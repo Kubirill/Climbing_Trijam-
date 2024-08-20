@@ -22,7 +22,8 @@ public class Cell : MonoBehaviour
     }
     private void AnimationBeforeMerge()
     {
-        transform.DOShakeScale(1, 0.5f);
+        transform.DOShakeScale(2, 0.5f);
+        GetComponent<SpriteRenderer>().sortingOrder = 0;
     }
     public void SetPosition(Vector2Int pos)
     {

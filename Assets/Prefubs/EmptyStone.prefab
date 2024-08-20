@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 851638288494997519}
   - component: {fileID: 766542812902815310}
   - component: {fileID: 759296304123971487}
+  - component: {fileID: 1259153549025642347}
   m_Layer: 0
   m_Name: EmptyStone
   m_TagString: Untagged
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 575431376c876374983b2f4e874acf3b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -146,3 +147,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.8, y: 1.8}
   m_EdgeRadius: 0
+--- !u!111 &1259153549025642347
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2797485476386713663}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: e3569f20bd3e7fa4fa2e1bd1cf0af481, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: e3569f20bd3e7fa4fa2e1bd1cf0af481, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

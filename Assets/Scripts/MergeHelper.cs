@@ -17,6 +17,7 @@ public class MergeHelper : MonoBehaviour
         var origin = 2 * target - currentPos;
 
         transform.position = origin;
+        transform.localScale = Vector2.one;
     }
     public IEnumerator CameraRescale()
     {
