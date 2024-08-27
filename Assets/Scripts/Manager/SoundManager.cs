@@ -37,7 +37,7 @@ public class SoundManager : MonoBehaviour
         AudioSource soundObject = Instantiate(_source);
         soundObject.clip = clip;
         soundObject.Play();
-         soundObject.GetComponent<DestroyAudioSorce>().LaunchDestroy(clip.length);
+        StartCoroutine( soundObject.GetComponent<DestroyAudioSorce>().LaunchDestroy(clip.length));
 
     }
     public void PlaySound(AudioClip soundType)
@@ -45,7 +45,7 @@ public class SoundManager : MonoBehaviour
         AudioSource soundObject = Instantiate(_source);
         soundObject.clip = soundType;
         soundObject.Play();
-        soundObject.GetComponent<DestroyAudioSorce>().LaunchDestroy(soundType.length);
+        StartCoroutine( soundObject.GetComponent<DestroyAudioSorce>().LaunchDestroy(soundType.length));
 
     }
 }
