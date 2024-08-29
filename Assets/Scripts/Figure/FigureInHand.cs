@@ -83,12 +83,12 @@ namespace Assets.Scripts
         private void ManipulateFigure()
         {
             
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E)||(GetScroll()<0))
             {
                 _holder.Figure.RotateFigure(true);
                 StartCoroutine(RotateFigure(true));
             }
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q) || (GetScroll() > 0))
             {
                 _holder.Figure.RotateFigure(false);
                 StartCoroutine( RotateFigure(false));
@@ -98,13 +98,20 @@ namespace Assets.Scripts
                 _holder.Figure.FlipFigure(false);
                 StartCoroutine(FlipFigure(false));
             }
-            if (Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.A) || Input.GetMouseButtonDown(1))
             {
                 _holder.Figure.FlipFigure(true);
                 StartCoroutine(FlipFigure(true));
 
             }
         }
+
+
+        public float GetScroll()
+        {
+            return Input.mouseScrollDelta.normalized.y;
+        }
+
 
         public void ClearFigure()
         {
