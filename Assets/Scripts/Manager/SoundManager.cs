@@ -30,6 +30,7 @@ public class SoundManager : MonoBehaviour
     {
 
         Launch -= PlaySound;
+        LaunchOwn -= PlaySound;
     }
     public void  PlaySound(SoundType soundType)
     {
